@@ -54,6 +54,30 @@ namespace AutoDiff.Test
         }
 
         /// <summary>
+        /// 测试计算图构建
+        /// <para>
+        /// y = x + x + x
+        /// </para>
+        /// </summary>
+        [TestMethod]
+        public void GraphBuild2()
+        {
+            Node x = new Var(5);
+            Node y = x + x + x;
+
+            Assert.IsTrue(x.Children.Count == 0);
+            Assert.IsTrue(x.Parents.Count == 3);
+            Assert.IsTrue(x.Parents[0] == x.Parents[1]);
+            Assert.IsTrue(x.Parents[0] != y);
+            Assert.IsTrue(x.Parents[2] == y);
+
+            Assert.IsTrue(y.Children.Count == 2);
+            Assert.IsTrue(y.Children[0] == x.Parents[0]);
+            Assert.IsTrue(y.Children[1] == x);
+            Assert.IsTrue(y.Parents.Count == 0);
+        }
+
+        /// <summary>
         /// 测试前向传播
         /// <para>
         /// r = (x + y) * (y + z), (x, y, z) = (10, 20, 30)
@@ -77,6 +101,24 @@ namespace AutoDiff.Test
             Assert.IsTrue(v.Value == 30);
             Assert.IsTrue(w.Value == 50);
             Assert.IsTrue(r.Value == 1500);
+        }
+
+        /// <summary>
+        /// 测试前向传播
+        /// <para>
+        /// y = x + x + x, x = 5
+        /// </para>
+        /// </summary>
+        [TestMethod]
+        public void Propagate2()
+        {
+            Node x = new Var(5);
+            Node y = x + x + x;
+
+            y.Propagate();
+
+            Assert.IsTrue(x.Value == 5);
+            Assert.IsTrue(y.Value == 15);
         }
 
         /// <summary>
@@ -104,6 +146,25 @@ namespace AutoDiff.Test
             Assert.IsTrue(x.Derivative == 50);
             Assert.IsTrue(y.Derivative == 80);
             Assert.IsTrue(z.Derivative == 30);
+        }
+
+        /// <summary>
+        /// 测试反向传播
+        /// <para>
+        /// r = (x + y) * (y + z), (x, y, z) = (10, 20, 30)
+        /// </para>
+        /// </summary>
+        [TestMethod]
+        public void BackPropagate2()
+        {
+            Node x = new Var(5);
+            Node y = x + x + x;
+
+            y.Propagate();
+            y.BackPropagate();
+
+            Assert.IsTrue(y.Derivative == 1);
+            Assert.IsTrue(x.Derivative == 3);
         }
     }
 }
