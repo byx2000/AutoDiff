@@ -7,10 +7,13 @@ namespace AutoDiff.Test
     public class NodeTest
     {
         /// <summary>
-        /// 测试计算图构建是否正确：r = (x + y) * (y + z)
+        /// 测试计算图构建
+        /// <para>
+        /// r = (x + y) * (y + z)
+        /// </para>
         /// </summary>
         [TestMethod]
-        public void GraphBuildTest1()
+        public void GraphBuild1()
         {
             Node x = new Var(10);
             Node y = new Var(20);
@@ -48,6 +51,32 @@ namespace AutoDiff.Test
             Assert.IsTrue(r.Children[0] == v);
             Assert.IsTrue(r.Children[1] == w);
             Assert.IsTrue(r.Parents.Count == 0);
+        }
+
+        /// <summary>
+        /// 测试前向传播
+        /// <para>
+        /// r = (x + y) * (y + z), (x, y, z) = (10, 20, 30)
+        /// </para>
+        /// </summary>
+        [TestMethod]
+        public void Propagate1()
+        {
+            Node x = new Var(10);
+            Node y = new Var(20);
+            Node z = new Var(30);
+            Node v = x + y;
+            Node w = y + z;
+            Node r = v * w;
+
+            r.Propagate();
+
+            Assert.IsTrue(x.Value == 10);
+            Assert.IsTrue(y.Value == 20);
+            Assert.IsTrue(z.Value == 30);
+            Assert.IsTrue(v.Value == 30);
+            Assert.IsTrue(w.Value == 50);
+            Assert.IsTrue(r.Value == 1500);
         }
     }
 }
