@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -51,6 +52,18 @@ namespace AutoDiff
         /// </summary>
         public void BackPropagate()
         {
+            BackPropagate(new Hashtable());
+        }
+
+        private void BackPropagate(Hashtable book)
+        {
+            if (book.Contains(this))
+            {
+                return;
+            }
+
+            book[this] = 1;
+
             if (Children.Count <= 0)
             {
                 return;
@@ -75,7 +88,7 @@ namespace AutoDiff
 
             foreach (Node c in Children)
             {
-                c.BackPropagate();
+                c.BackPropagate(book);
             }
         }
 

@@ -102,6 +102,41 @@ namespace AutoDiff.Test
         }
 
         /// <summary>
+        /// 测试计算图构建
+        /// <para>
+        /// r = (x + y) * (x + y)
+        /// </para>
+        /// </summary>
+        [TestMethod]
+        public void GraphBuild4()
+        {
+            Node x = new Var(1);
+            Node y = new Var(2);
+            Node u = x + y;
+            Node r = u * u;
+
+            Assert.IsTrue(x.Children.Count == 0);
+            Assert.IsTrue(x.Parents.Count == 1);
+            Assert.IsTrue(x.Parents[0] == u);
+
+            Assert.IsTrue(y.Children.Count == 0);
+            Assert.IsTrue(y.Parents.Count == 1);
+            Assert.IsTrue(y.Parents[0] == u);
+
+            Assert.IsTrue(u.Children.Count == 2);
+            Assert.IsTrue(u.Children[0] == x);
+            Assert.IsTrue(u.Children[1] == y);
+            Assert.IsTrue(u.Parents.Count == 2);
+            Assert.IsTrue(u.Parents[0] == r);
+            Assert.IsTrue(u.Parents[1] == r);
+
+            Assert.IsTrue(r.Children.Count == 2);
+            Assert.IsTrue(r.Children[0] == u);
+            Assert.IsTrue(r.Children[1] == u);
+            Assert.IsTrue(r.Parents.Count == 0);
+        }
+
+        /// <summary>
         /// 测试前向传播
         /// <para>
         /// r = (x + y) * (y + z), (x, y, z) = (10, 20, 30)
@@ -161,6 +196,28 @@ namespace AutoDiff.Test
 
             Assert.IsTrue(x.Value == 5);
             Assert.IsTrue(y.Value == 125);
+        }
+
+        /// <summary>
+        /// 测试前向传播
+        /// <para>
+        /// r = (x + y) * (x + y), (x, y) = (1, 2)
+        /// </para>
+        /// </summary>
+        [TestMethod]
+        public void Propagate4()
+        {
+            Node x = new Var(1);
+            Node y = new Var(2);
+            Node u = x + y;
+            Node r = u * u;
+
+            r.Propagate();
+
+            Assert.IsTrue(x.Value == 1);
+            Assert.IsTrue(y.Value == 2);
+            Assert.IsTrue(u.Value == 3);
+            Assert.IsTrue(r.Value == 9);
         }
 
         /// <summary>
@@ -226,6 +283,29 @@ namespace AutoDiff.Test
 
             Assert.IsTrue(y.Derivative == 1);
             Assert.IsTrue(x.Derivative == 75);
+        }
+
+        /// <summary>
+        /// 测试反向传播
+        /// <para>
+        /// r = (x + y) * (x + y), (x, y) = (1, 2)
+        /// </para>
+        /// </summary>
+        [TestMethod]
+        public void BackPropagate4()
+        {
+            Node x = new Var(1);
+            Node y = new Var(2);
+            Node u = x + y;
+            Node r = u * u;
+
+            r.Propagate();
+            r.BackPropagate();
+
+            Assert.IsTrue(r.Derivative == 1);
+            Assert.IsTrue(u.Derivative == 6);
+            Assert.IsTrue(x.Derivative == 6);
+            Assert.IsTrue(y.Derivative == 6);
         }
     }
 }
