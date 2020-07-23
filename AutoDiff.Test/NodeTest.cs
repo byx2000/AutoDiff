@@ -78,5 +78,32 @@ namespace AutoDiff.Test
             Assert.IsTrue(w.Value == 50);
             Assert.IsTrue(r.Value == 1500);
         }
+
+        /// <summary>
+        /// 测试反向传播
+        /// <para>
+        /// r = (x + y) * (y + z), (x, y, z) = (10, 20, 30)
+        /// </para>
+        /// </summary>
+        [TestMethod]
+        public void BackPropagate1()
+        {
+            Node x = new Var(10);
+            Node y = new Var(20);
+            Node z = new Var(30);
+            Node v = x + y;
+            Node w = y + z;
+            Node r = v * w;
+
+            r.Propagate();
+            r.BackPropagate();
+
+            Assert.IsTrue(r.Derivative == 1);
+            Assert.IsTrue(v.Derivative == 50);
+            Assert.IsTrue(w.Derivative == 30);
+            Assert.IsTrue(x.Derivative == 50);
+            Assert.IsTrue(y.Derivative == 80);
+            Assert.IsTrue(z.Derivative == 30);
+        }
     }
 }

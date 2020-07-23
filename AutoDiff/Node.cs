@@ -65,7 +65,6 @@ namespace AutoDiff
             foreach (Node c in Children)
             {
                 input.Add(c.Value);
-                c.Derivative = 0;
             }
             List<double> localDerivatives = Diff(input);
 
