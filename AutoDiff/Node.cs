@@ -38,10 +38,21 @@ namespace AutoDiff
         /// </summary>
         public void Propagate()
         {
+            Propagate(new Hashtable());
+        }
+
+        private void Propagate(Hashtable book)
+        {
+            if (book.Contains(this))
+            {
+                return;
+            }
+            book[this] = 1;
+
             List<double> p = new List<double>();
             foreach (Node c in Children)
             {
-                c.Propagate();
+                c.Propagate(book);
                 p.Add(c.Value);
             }
             Value = Eval(p);
@@ -61,7 +72,6 @@ namespace AutoDiff
             {
                 return;
             }
-
             book[this] = 1;
 
             if (Children.Count <= 0)
@@ -121,6 +131,7 @@ namespace AutoDiff
 
         public override double Eval(List<double> input)
         {
+            Console.WriteLine("var");
             return Value;
         }
 
@@ -143,6 +154,7 @@ namespace AutoDiff
 
         public override double Eval(List<double> input)
         {
+            Console.WriteLine("add");
             double res = 0;
             foreach (double i in input)
             {
@@ -175,6 +187,7 @@ namespace AutoDiff
 
         public override double Eval(List<double> input)
         {
+            Console.WriteLine("mul");
             double res = 1;
             foreach (double i in input)
             {
