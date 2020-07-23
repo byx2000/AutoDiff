@@ -131,7 +131,6 @@ namespace AutoDiff
 
         public override double Eval(List<double> input)
         {
-            Console.WriteLine("var");
             return Value;
         }
 
@@ -154,7 +153,6 @@ namespace AutoDiff
 
         public override double Eval(List<double> input)
         {
-            Console.WriteLine("add");
             double res = 0;
             foreach (double i in input)
             {
@@ -187,7 +185,6 @@ namespace AutoDiff
 
         public override double Eval(List<double> input)
         {
-            Console.WriteLine("mul");
             double res = 1;
             foreach (double i in input)
             {
