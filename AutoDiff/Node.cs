@@ -124,6 +124,15 @@ namespace AutoDiff
         }
 
         /// <summary>
+        /// 将浮点常数转换为计算节点
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator Node(double value)
+        {
+            return new Var(value);
+        }
+
+        /// <summary>
         /// 重载+运算符
         /// </summary>
         /// <param name="lhs"></param>
