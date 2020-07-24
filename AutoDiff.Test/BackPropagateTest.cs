@@ -100,5 +100,27 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Derivative == 1);
             Assert.IsTrue(x.Derivative == 55);
         }
+
+        /// <summary>
+        /// u = x + y, v = x * y, r = u * v + v * u, (x, y) = (1, 2)
+        /// </summary>
+        [TestMethod]
+        public void Case6()
+        {
+            Node x = new Var(1);
+            Node y = new Var(2);
+            Node u = x + y;
+            Node v = x * y;
+            Node r = u * v + v * u;
+
+            r.Propagate();
+            r.BackPropagate();
+
+            Assert.IsTrue(r.Derivative == 1);
+            Assert.IsTrue(u.Derivative == 4);
+            Assert.IsTrue(v.Derivative == 6);
+            Assert.IsTrue(x.Derivative == 16);
+            Assert.IsTrue(y.Derivative == 10);
+        }
     }
 }

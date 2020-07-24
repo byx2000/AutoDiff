@@ -95,5 +95,26 @@ namespace AutoDiff.Test
             Assert.IsTrue(x.Value == 12);
             Assert.IsTrue(y.Value == 377);
         }
+
+        /// <summary>
+        /// u = x + y, v = x * y, r = u * v + v * u, (x, y) = (1, 2)
+        /// </summary>
+        [TestMethod]
+        public void Case6()
+        {
+            Node x = new Var(1);
+            Node y = new Var(2);
+            Node u = x + y;
+            Node v = x * y;
+            Node r = u * v + v * u;
+
+            r.Propagate();
+
+            Assert.IsTrue(x.Value == 1);
+            Assert.IsTrue(y.Value == 2);
+            Assert.IsTrue(u.Value == 3);
+            Assert.IsTrue(v.Value == 2);
+            Assert.IsTrue(r.Value == 12);
+        }
     }
 }

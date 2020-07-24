@@ -74,42 +74,45 @@ namespace AutoDiff
         /// </summary>
         public void BackPropagate()
         {
-            BackPropagate(new Hashtable());
-        }
-
-        private void BackPropagate(Hashtable book)
-        {
-            if (book.Contains(this))
+            Queue<Node> q = new Queue<Node>();
+            Hashtable book = new Hashtable();
+            q.Enqueue(this);
+            Derivative = 1;
+            while (q.Count > 0)
             {
-                return;
-            }
-            book[this] = 1;
+                // 获取并标记当前节点
+                Node cur = q.Dequeue();
+                //book[cur] = 1;
 
-            if (Children.Count <= 0)
-            {
-                return;
-            }
+                // 叶子节点
+                if (cur.Children.Count <= 0)
+                {
+                    continue;
+                }
 
-            if (Parents.Count <= 0)
-            {
-                Derivative = 1;
-            }
+                // 计算本地梯度
+                List<double> input = new List<double>();
+                foreach (Node c in cur.Children)
+                {
+                    input.Add(c.Value);
+                }
+                List<double> localDerivatives = cur.Diff(input);
 
-            List<double> input = new List<double>();
-            foreach (Node c in Children)
-            {
-                input.Add(c.Value);
-            }
-            List<double> localDerivatives = Diff(input);
+                // 更新子节点梯度值
+                for (int i = 0; i < localDerivatives.Count; ++i)
+                {
+                    cur.Children[i].Derivative += localDerivatives[i] * cur.Derivative;
+                }
 
-            for (int i = 0; i < localDerivatives.Count; ++i)
-            {
-                Children[i].Derivative += localDerivatives[i] * Derivative;
-            }
-
-            foreach (Node c in Children)
-            {
-                c.BackPropagate(book);
+                // 将子节点加入队列
+                foreach (Node c in cur.Children)
+                {
+                    if (!book.Contains(c))
+                    {
+                        q.Enqueue(c);
+                        book[c] = 1;
+                    }
+                }
             }
         }
 

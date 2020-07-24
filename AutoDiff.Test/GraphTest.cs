@@ -144,5 +144,48 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Children.Count == 2);
             Assert.IsTrue(y.Parents.Count == 0);
         }
+
+        /// <summary>
+        /// u = x + y, v = x * y, r = u * v + v * u
+        /// </summary>
+        [TestMethod]
+        public void Case6()
+        {
+            Node x = new Var(1);
+            Node y = new Var(2);
+            Node u = x + y;
+            Node v = x * y;
+            Node r = u * v + v * u;
+
+            Assert.IsTrue(x.Children.Count == 0);
+            Assert.IsTrue(x.Parents.Count == 2);
+            Assert.IsTrue(x.Parents[0] == u);
+            Assert.IsTrue(x.Parents[1] == v);
+
+            Assert.IsTrue(y.Children.Count == 0);
+            Assert.IsTrue(y.Parents.Count == 2);
+            Assert.IsTrue(y.Parents[0] == u);
+            Assert.IsTrue(y.Parents[1] == v);
+
+            Assert.IsTrue(u.Children.Count == 2);
+            Assert.IsTrue(u.Children[0] == x);
+            Assert.IsTrue(u.Children[1] == y);
+            Assert.IsTrue(u.Parents.Count == 2);
+            Assert.IsTrue(u.Parents[0] == v.Parents[0]);
+            Assert.IsTrue(u.Parents[1] == v.Parents[1]);
+            Assert.IsTrue(u.Parents[0].Parents[0] == r);
+            Assert.IsTrue(u.Parents[1].Parents[0] == r);
+
+            Assert.IsTrue(v.Children.Count == 2);
+            Assert.IsTrue(v.Children[0] == x);
+            Assert.IsTrue(v.Children[1] == y);
+            Assert.IsTrue(u.Parents.Count == 2);
+            Assert.IsTrue(v.Parents[0] == u.Parents[0]);
+            Assert.IsTrue(v.Parents[1] == u.Parents[1]);
+            Assert.IsTrue(v.Parents[0].Parents[0] == r);
+            Assert.IsTrue(v.Parents[1].Parents[0] == r);
+
+            Assert.IsTrue(r.Children.Count == 2);
+        }
     }
 }
