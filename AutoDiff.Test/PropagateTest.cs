@@ -80,5 +80,20 @@ namespace AutoDiff.Test
             Assert.IsTrue(u.Value == 3);
             Assert.IsTrue(r.Value == 9);
         }
+
+        /// <summary>
+        /// y = (x + 1) * (2 * x + 5), x = 12
+        /// </summary>
+        [TestMethod]
+        public void Case5()
+        {
+            Node x = new Var(12);
+            Node y = (x + 1) * (2 * x + 5);
+
+            y.Propagate();
+
+            Assert.IsTrue(x.Value == 12);
+            Assert.IsTrue(y.Value == 377);
+        }
     }
 }

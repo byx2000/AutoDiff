@@ -126,5 +126,23 @@ namespace AutoDiff.Test
             Assert.IsTrue(r.Children[1] == u);
             Assert.IsTrue(r.Parents.Count == 0);
         }
+
+        /// <summary>
+        /// y = (x + 1) * (2 * x + 5)
+        /// </summary>
+        [TestMethod]
+        public void Case5()
+        {
+            Node x = new Var(12);
+            Node y = (x + 1) * (2 * x + 5);
+
+            Assert.IsTrue(x.Children.Count == 0);
+            Assert.IsTrue(x.Parents.Count == 2);
+            Assert.IsTrue(x.Parents[0].Parents[0] == y);
+            Assert.IsTrue(x.Parents[1].Parents[0].Parents[0] == y);
+
+            Assert.IsTrue(y.Children.Count == 2);
+            Assert.IsTrue(y.Parents.Count == 0);
+        }
     }
 }
