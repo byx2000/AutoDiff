@@ -269,5 +269,33 @@ namespace AutoDiff.Test
             z.BackPropagate();
             Assert.IsTrue(x.Derivative == -1);
         }
+
+        [TestMethod]
+        public void Case16()
+        {
+            Node x = 12;
+            Node y = 5;
+            Node r = y;
+
+            r.Propagate();
+            Assert.IsTrue(r.Value == 5);
+
+            r.BackPropagate();
+            Assert.IsTrue(x.Derivative == 0);
+            Assert.IsTrue(y.Derivative == 1);
+        }
+
+        [TestMethod]
+        public void Case17()
+        {
+            Node x = 10;
+            Node y = 7 + x - x;
+
+            y.Propagate();
+            Assert.IsTrue(y.Value == 7);
+
+            y.BackPropagate();
+            Assert.IsTrue(x.Derivative == 0);
+        }
     }
 }
