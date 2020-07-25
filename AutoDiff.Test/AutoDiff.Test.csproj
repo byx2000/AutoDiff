@@ -49,10 +49,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackPropagateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GraphTest.cs" />
-    <Compile Include="PropagateTest.cs" />
     <Compile Include="MixedTest.cs" />
   </ItemGroup>
   <ItemGroup>
