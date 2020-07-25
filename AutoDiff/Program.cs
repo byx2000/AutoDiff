@@ -1,18 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AutoDiff
 {
     class Program
     {
+        static Random rand = new Random();
+
         static void Main()
         {
-            Node x = 12;
-            Node y = x - x;
+            // 用梯度下降法求函数y = x * x的最小值 (0, 0)
 
-            y.Propagate();
-            y.BackPropagate();
+            Node x = (rand.NextDouble() * 2 - 1) * 1000;
+            Node y = x * x;
 
-            Console.WriteLine(x.Derivative);
+            double rate = 0.1;
+            for (int i = 0; i < 100; ++i)
+            {
+                y.Propagate();
+                Console.WriteLine("x = " + x.Value + "\ty = " + y.Value);
+                y.BackPropagate();
+                x.Value -= rate * x.Derivative;
+            }
 
             Console.WriteLine("请按任意键继续...");
             Console.ReadKey();
