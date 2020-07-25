@@ -10,7 +10,10 @@ namespace AutoDiff.Test
     public class BackPropagateTest
     {
         /// <summary>
-        /// r = (x + y) * (y + z), (x, y, z) = (10, 20, 30)
+        /// x = 10
+        /// y = 20
+        /// z = 30
+        /// r = (x + y) * (y + z)
         /// </summary>
         [TestMethod]
         public void Case1()
@@ -34,7 +37,8 @@ namespace AutoDiff.Test
         }
 
         /// <summary>
-        /// y = x + x + x, x = 5
+        /// x = 5
+        /// y = x + x + x
         /// </summary>
         [TestMethod]
         public void Case2()
@@ -50,7 +54,8 @@ namespace AutoDiff.Test
         }
 
         /// <summary>
-        /// y = x * x * x, x = 5
+        /// x = 5
+        /// y = x * x * x
         /// </summary>
         [TestMethod]
         public void Case3()
@@ -66,7 +71,9 @@ namespace AutoDiff.Test
         }
 
         /// <summary>
-        /// r = (x + y) * (x + y), (x, y) = (1, 2)
+        /// x = 1
+        /// y = 2
+        /// r = (x + y) * (x + y)
         /// </summary>
         [TestMethod]
         public void Case4()
@@ -86,7 +93,8 @@ namespace AutoDiff.Test
         }
 
         /// <summary>
-        /// y = (x + 1) * (2 * x + 5), x = 12
+        /// x = 12
+        /// y = (x + 1) * (2 * x + 5)
         /// </summary>
         [TestMethod]
         public void Case5()
@@ -102,7 +110,11 @@ namespace AutoDiff.Test
         }
 
         /// <summary>
-        /// u = x + y, v = x * y, r = u * v + v * u, (x, y) = (1, 2)
+        /// x = 1
+        /// y = 2
+        /// u = x + y, 
+        /// v = x * y, 
+        /// r = u * v + v * u
         /// </summary>
         [TestMethod]
         public void Case6()
@@ -121,6 +133,26 @@ namespace AutoDiff.Test
             Assert.IsTrue(v.Derivative == 6);
             Assert.IsTrue(x.Derivative == 16);
             Assert.IsTrue(y.Derivative == 10);
+        }
+
+        /// <summary>
+        /// x = 1
+        /// y = x + x
+        /// z = y + y
+        /// r = y + z
+        /// </summary>
+        [TestMethod]
+        public void Case7()
+        {
+            Node x = 1;
+            Node y = x + x;
+            Node z = y + y;
+            Node r = y + z;
+
+            r.Propagate();
+            r.BackPropagate();
+
+            Assert.IsTrue(x.Derivative == 6);
         }
     }
 }

@@ -74,20 +74,29 @@ namespace AutoDiff
         /// </summary>
         public void BackPropagate()
         {
-            Queue<Node> q = new Queue<Node>();
-            Hashtable book = new Hashtable();
-            q.Enqueue(this);
-            Derivative = 1;
-            while (q.Count > 0)
-            {
-                // 获取并标记当前节点
-                Node cur = q.Dequeue();
-                //book[cur] = 1;
+            // 记录所有节点的出度
+            Hashtable outDegree = new Hashtable();
+            CalculateOutDegree(outDegree);
 
-                // 叶子节点
-                if (cur.Children.Count <= 0)
+            Derivative = 1;
+
+            // 按拓扑排序处理节点
+            Queue<Node> ready = new Queue<Node>();
+            ready.Enqueue(this);
+            while (ready.Count > 0)
+            {
+                // 获取当前节点
+                Node cur = ready.Dequeue();
+
+                // 更新节点出度，添加出度为0的节点到就绪队列
+                foreach (Node c in cur.Children)
                 {
-                    continue;
+                    int val = (int)outDegree[c];
+                    outDegree[c] = val - 1;
+                    if (val - 1 == 0 && c.Children.Count > 0)
+                    {
+                        ready.Enqueue(c);
+                    }
                 }
 
                 // 计算本地梯度
@@ -103,16 +112,23 @@ namespace AutoDiff
                 {
                     cur.Children[i].Derivative += localDerivatives[i] * cur.Derivative;
                 }
+            }
+        }
 
-                // 将子节点加入队列
-                foreach (Node c in cur.Children)
-                {
-                    if (!book.Contains(c))
-                    {
-                        q.Enqueue(c);
-                        book[c] = 1;
-                    }
-                }
+        /// <summary>
+        /// 计算出度
+        /// </summary>
+        /// <param name="inDegree">保存所有节点的出度</param>
+        private void CalculateOutDegree(Hashtable inDegree)
+        {
+            if (inDegree.Contains(this))
+            {
+                return;
+            }
+            inDegree[this] = Parents.Count;
+            foreach (Node c in Children)
+            {
+                c.CalculateOutDegree(inDegree);
             }
         }
 
@@ -175,7 +191,7 @@ namespace AutoDiff
 
         public override List<double> Diff(List<double> input)
         {
-            return new List<double> { 1 };
+            return new List<double>();
         }
     }
 

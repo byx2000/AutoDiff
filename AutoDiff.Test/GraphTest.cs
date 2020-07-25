@@ -146,7 +146,9 @@ namespace AutoDiff.Test
         }
 
         /// <summary>
-        /// u = x + y, v = x * y, r = u * v + v * u
+        /// u = x + y
+        /// v = x * y
+        /// r = u * v + v * u
         /// </summary>
         [TestMethod]
         public void Case6()
@@ -186,6 +188,29 @@ namespace AutoDiff.Test
             Assert.IsTrue(v.Parents[1].Parents[0] == r);
 
             Assert.IsTrue(r.Children.Count == 2);
+        }
+
+        /// <summary>
+        /// y = x + x
+        /// z = y + y
+        /// r = y + z
+        /// </summary>
+        [TestMethod]
+        public void Case7()
+        {
+            Node x = 1;
+            Node y = x + x;
+            Node z = y + y;
+            Node r = y + z;
+
+            Assert.IsTrue(y.Children.Count == 2);
+            Assert.IsTrue(y.Parents.Count == 3);
+
+            Assert.IsTrue(z.Children.Count == 2);
+            Assert.IsTrue(z.Parents.Count == 1);
+
+            Assert.IsTrue(r.Children.Count == 2);
+            Assert.IsTrue(r.Parents.Count == 0);
         }
     }
 }
