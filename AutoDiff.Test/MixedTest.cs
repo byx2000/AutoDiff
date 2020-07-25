@@ -121,5 +121,60 @@ namespace AutoDiff.Test
             Assert.IsTrue(x.Derivative == -78669);
             Assert.IsTrue(y.Derivative == -6829);
         }
+
+        /// <summary>
+        /// x = 3
+        /// y = (-3) * x
+        /// </summary>
+        [TestMethod]
+        public void Case6()
+        {
+            Node x = 3;
+            Node y = (-3) * x;
+
+            y.Propagate();
+            Assert.IsTrue(y.Value == -9);
+
+            y.BackPropagate();
+            Assert.IsTrue(x.Derivative == -3);
+        }
+
+        /// <summary>
+        /// x = 3
+        /// y = 155
+        /// </summary>
+        [TestMethod]
+        public void Case7()
+        {
+            Node x = 3;
+            Node y = 155;
+
+            y.Propagate();
+            Assert.IsTrue(y.Value == 155);
+
+            y.BackPropagate();
+            Assert.IsTrue(y.Derivative == 1);
+            Assert.IsTrue(x.Derivative == 0);
+        }
+
+        [TestMethod]
+        public void Case8()
+        {
+            Node x = 2;
+            Node y = 7;
+            Node z = -11;
+            Node u = x + y + z;
+            Node v = x * y + y * z + x * z;
+            Node w = x * y * z + (-7);
+            Node r = 2 * x + 7 * (u * v + w) + (-16) * (v + w) + w * u + (-1) * u * v * w + 3 * y + 4 * z;
+
+            r.Propagate();
+            Assert.IsTrue(r.Value == 31672);
+
+            r.BackPropagate();
+            Assert.IsTrue(x.Derivative == 906);
+            Assert.IsTrue(y.Derivative == -7288);
+            Assert.IsTrue(z.Derivative == -20139);
+        }
     }
 }
