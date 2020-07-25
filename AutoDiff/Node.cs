@@ -10,15 +10,23 @@ namespace AutoDiff
     /// </summary>
     public abstract class Node
     {
+        private List<Node> children = new List<Node>();
         /// <summary>
         /// 子节点列表
         /// </summary>
-        public List<Node> Children { get; private set; } = new List<Node>();
+        public IReadOnlyList<Node> Children
+        {
+            get { return children; }
+        }
 
+        private List<Node> parents = new List<Node>();
         /// <summary>
         /// 父节点列表
         /// </summary>
-        public List<Node> Parents { get; private set; } = new List<Node>();
+        public IReadOnlyList<Node> Parents
+        {
+            get { return parents; }
+        }        
 
         /// <summary>
         /// 计算值
@@ -131,7 +139,7 @@ namespace AutoDiff
             Derivative = 0;
 
             // 记录节点出度
-            inDegree[this] = Parents.Count;
+            inDegree[this] = parents.Count;
 
             // 递归处理子节点
             foreach (Node c in Children)
@@ -146,8 +154,8 @@ namespace AutoDiff
         /// <param name="n"></param>
         protected void AddChild(Node n)
         {
-            Children.Add(n);
-            n.Parents.Add(this);
+            children.Add(n);
+            n.parents.Add(this);
         }
 
         /// <summary>
