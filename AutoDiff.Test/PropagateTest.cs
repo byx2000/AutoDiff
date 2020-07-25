@@ -9,12 +9,6 @@ namespace AutoDiff.Test
     [TestClass]
     public class PropagateTest
     {
-        /// <summary>
-        /// x = 10
-        /// y = 20
-        /// z = 30
-        /// r = (x + y) * (y + z)
-        /// </summary>
         [TestMethod]
         public void Case1()
         {
@@ -35,10 +29,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(r.Value == 1500);
         }
 
-        /// <summary>
-        /// x = 5
-        /// y = x + x + x
-        /// </summary>
         [TestMethod]
         public void Case2()
         {
@@ -51,10 +41,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Value == 15);
         }
 
-        /// <summary>
-        /// x = 5
-        /// y = x * x * x
-        /// </summary>
         [TestMethod]
         public void Case3()
         {
@@ -67,11 +53,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Value == 125);
         }
 
-        /// <summary>
-        /// x = 1
-        /// y = 2
-        /// r = (x + y) * (x + y)
-        /// </summary>
         [TestMethod]
         public void Case4()
         {
@@ -88,10 +69,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(r.Value == 9);
         }
 
-        /// <summary>
-        /// x = 12
-        /// y = (x + 1) * (2 * x + 5)
-        /// </summary>
         [TestMethod]
         public void Case5()
         {
@@ -104,13 +81,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Value == 377);
         }
 
-        /// <summary>
-        /// x = 1
-        /// y = 2
-        /// u = x + y
-        /// v = x * y
-        /// r = u * v + v * u
-        /// </summary>
         [TestMethod]
         public void Case6()
         {
@@ -129,12 +99,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(r.Value == 12);
         }
 
-        /// <summary>
-        /// x = 1
-        /// y = x + x
-        /// z = y + y
-        /// r = y + z
-        /// </summary>
         [TestMethod]
         public void Case7()
         {
@@ -149,6 +113,20 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Value == 2);
             Assert.IsTrue(z.Value == 4);
             Assert.IsTrue(r.Value == 6);
+        }
+
+        [TestMethod]
+        public void Case8()
+        {
+            Node x = 12;
+            Node y = x - 1;
+            Node z = 7 - x;
+
+            y.Propagate();
+            Assert.IsTrue(y.Value == 11);
+
+            z.Propagate();
+            Assert.IsTrue(z.Value == -5);
         }
     }
 }

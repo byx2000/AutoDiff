@@ -9,9 +9,6 @@ namespace AutoDiff.Test
     [TestClass]
     public class GraphTest
     {
-        /// <summary>
-        /// r = (x + y) * (y + z)
-        /// </summary>
         [TestMethod]
         public void Case1()
         {
@@ -53,9 +50,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(r.Parents.Count == 0);
         }
 
-        /// <summary>
-        /// y = x + x + x
-        /// </summary>
         [TestMethod]
         public void Case2()
         {
@@ -74,9 +68,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Parents.Count == 0);
         }
 
-        /// <summary>
-        /// y = x * x * x
-        /// </summary>
         [TestMethod]
         public void Case3()
         {
@@ -95,9 +86,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Parents.Count == 0);
         }
 
-        /// <summary>
-        /// r = (x + y) * (x + y)
-        /// </summary>
         [TestMethod]
         public void Case4()
         {
@@ -127,9 +115,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(r.Parents.Count == 0);
         }
 
-        /// <summary>
-        /// y = (x + 1) * (2 * x + 5)
-        /// </summary>
         [TestMethod]
         public void Case5()
         {
@@ -145,11 +130,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Parents.Count == 0);
         }
 
-        /// <summary>
-        /// u = x + y
-        /// v = x * y
-        /// r = u * v + v * u
-        /// </summary>
         [TestMethod]
         public void Case6()
         {
@@ -190,11 +170,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(r.Children.Count == 2);
         }
 
-        /// <summary>
-        /// y = x + x
-        /// z = y + y
-        /// r = y + z
-        /// </summary>
         [TestMethod]
         public void Case7()
         {
@@ -211,6 +186,20 @@ namespace AutoDiff.Test
 
             Assert.IsTrue(r.Children.Count == 2);
             Assert.IsTrue(r.Parents.Count == 0);
+        }
+
+        [TestMethod]
+        public void Case8()
+        {
+            Node x = 12;
+            Node y = x - 1;
+            Node z = 7 - x;
+
+            Assert.IsTrue(y.Children.Count == 2);
+            Assert.IsTrue(y.Children[0] == x);
+
+            Assert.IsTrue(z.Children.Count == 2);
+            Assert.IsTrue(z.Children[1] == x);
         }
     }
 }

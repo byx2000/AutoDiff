@@ -6,15 +6,12 @@ namespace AutoDiff
     {
         static void Main()
         {
-            Node x = 1;
-            Node y = x + x;
-            Node z = y + y;
-            Node r = y + z;
+            Node x = 12;
+            Node y = x - x;
 
-            r.Propagate();
-            Console.WriteLine(r.Value);
+            y.Propagate();
+            y.BackPropagate();
 
-            r.BackPropagate();
             Console.WriteLine(x.Derivative);
 
             Console.WriteLine("请按任意键继续...");

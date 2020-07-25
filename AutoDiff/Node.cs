@@ -13,12 +13,12 @@ namespace AutoDiff
         /// <summary>
         /// 子节点列表
         /// </summary>
-        public List<Node> Children { get; set; } = new List<Node>();
+        public List<Node> Children { get; private set; } = new List<Node>();
 
         /// <summary>
         /// 父节点列表
         /// </summary>
-        public List<Node> Parents { get; set; } = new List<Node>();
+        public List<Node> Parents { get; private set; } = new List<Node>();
 
         /// <summary>
         /// 计算值
@@ -28,7 +28,7 @@ namespace AutoDiff
         /// <summary>
         /// 导数值
         /// </summary>
-        public double Derivative { get; set; }
+        public double Derivative { get; private set; }
 
         /// <summary>
         /// 求值（子类实现）
@@ -74,9 +74,9 @@ namespace AutoDiff
         /// </summary>
         public void BackPropagate()
         {
-            // 记录所有节点的出度
+            // 记录所有节点的出度、梯度清零
             Hashtable outDegree = new Hashtable();
-            CalculateOutDegree(outDegree);
+            BackPropagatePreparation(outDegree);
 
             Derivative = 1;
 
@@ -116,19 +116,27 @@ namespace AutoDiff
         }
 
         /// <summary>
-        /// 计算出度
+        /// 反向传播前的准备工作
         /// </summary>
         /// <param name="inDegree">保存所有节点的出度</param>
-        private void CalculateOutDegree(Hashtable inDegree)
+        private void BackPropagatePreparation(Hashtable inDegree)
         {
+            // 跳过已处理的节点
             if (inDegree.Contains(this))
             {
                 return;
             }
+
+            // 将梯度清零
+            Derivative = 0;
+
+            // 记录节点出度
             inDegree[this] = Parents.Count;
+
+            // 递归处理子节点
             foreach (Node c in Children)
             {
-                c.CalculateOutDegree(inDegree);
+                c.BackPropagatePreparation(inDegree);
             }
         }
 
@@ -160,6 +168,17 @@ namespace AutoDiff
         public static Node operator +(Node lhs, Node rhs)
         {
             return new Add(lhs, rhs);
+        }
+
+        /// <summary>
+        /// 重载-运算符
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
+        public static Node operator -(Node lhs, Node rhs)
+        {
+            return new Sub(lhs, rhs);
         }
 
         /// <summary>
@@ -214,6 +233,28 @@ namespace AutoDiff
         public override List<double> Diff(List<double> input)
         {
             return new List<double> { 1, 1 };
+        }
+    }
+
+    /// <summary>
+    /// 减法节点
+    /// </summary>
+    public class Sub : Node
+    {
+        public Sub(Node lhs, Node rhs)
+        {
+            AddChild(lhs);
+            AddChild(rhs);
+        }
+
+        public override double Eval(List<double> input)
+        {
+            return input[0] - input[1];
+        }
+
+        public override List<double> Diff(List<double> input)
+        {
+            return new List<double> { 1, -1 };
         }
     }
 

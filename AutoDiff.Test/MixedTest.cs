@@ -9,9 +9,6 @@ namespace AutoDiff.Test
     [TestClass]
     public class MixedTest
     {
-        /// <summary>
-        /// r = (x * y + z) + (x + y) * z, (x, y, z) = (5, 4, 7)
-        /// </summary>
         [TestMethod]
         public void Case1()
         {
@@ -29,9 +26,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(z.Derivative == 10);
         }
 
-        /// <summary>
-        /// r = (x * y) * (x * y) + (x * y) * (x * y), (x, y) = (23, 77)
-        /// </summary>
         [TestMethod]
         public void Case2()
         {
@@ -49,9 +43,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Derivative == 162932);
         }
 
-        /// <summary>
-        /// r = (x * y + 3 * z + 6 * w) * (12 + y * z + 6 * w) + 10 * x * (y + z) * (w + 3), (x, y, z, w) = (2, -3, 11, 7)
-        /// </summary>
         [TestMethod]
         public void Case3()
         {
@@ -71,9 +62,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(w.Derivative == 700);
         }
 
-        /// <summary>
-        /// u = x + y, v = x * y, r = 2 * u * v * v + 3 * u * u * v + 4, (x, y) = (12, 13)
-        /// </summary>
         [TestMethod]
         public void Case4()
         {
@@ -95,14 +83,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Derivative == 281772);
         }
 
-        /// <summary>
-        /// u = x + y
-        /// v = x * y
-        /// a = 3 * u + 2 * v
-        /// b = 7 * u * v
-        /// r = x + y + u + v + a + b + x * y * u * v * a * b
-        /// (x, y) = (-3, 2)
-        /// </summary>
         [TestMethod]
         public void Case5()
         {
@@ -122,10 +102,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Derivative == -6829);
         }
 
-        /// <summary>
-        /// x = 3
-        /// y = (-3) * x
-        /// </summary>
         [TestMethod]
         public void Case6()
         {
@@ -139,10 +115,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(x.Derivative == -3);
         }
 
-        /// <summary>
-        /// x = 3
-        /// y = 155
-        /// </summary>
         [TestMethod]
         public void Case7()
         {
@@ -175,6 +147,107 @@ namespace AutoDiff.Test
             Assert.IsTrue(x.Derivative == 906);
             Assert.IsTrue(y.Derivative == -7288);
             Assert.IsTrue(z.Derivative == -20139);
+        }
+
+        [TestMethod]
+        public void Case9()
+        {
+            Node x = 17;
+            Node y = -5;
+            Node r = x * x + y * y - 2 * x * y;
+
+            r.Propagate();
+            Assert.IsTrue(r.Value == 484);
+
+            r.BackPropagate();
+            Assert.IsTrue(x.Derivative == 44);
+            Assert.IsTrue(y.Derivative == -44);
+        }
+
+        [TestMethod]
+        public void Case10()
+        {
+            Node x = 5;
+            Node y = 2;
+            Node r = x - (3 * x - 2 * y) * (x + y - 55) + 7 - 66;
+
+            r.Propagate();
+            Assert.IsTrue(r.Value == 474);
+
+            r.BackPropagate();
+            Assert.IsTrue(x.Derivative == 134);
+            Assert.IsTrue(y.Derivative == -107);
+        }
+
+        [TestMethod]
+        public void Case11()
+        {
+            Node x = -3;
+            Node y = 7;
+            Node z = 11;
+            Node r = x - y - z;
+
+            r.Propagate();
+            Assert.IsTrue(r.Value == -21);
+
+            r.BackPropagate();
+            Assert.IsTrue(x.Derivative == 1);
+            Assert.IsTrue(y.Derivative == -1);
+            Assert.IsTrue(z.Derivative == -1);
+        }
+
+        [TestMethod]
+        public void Case12()
+        {
+            Node x = -3;
+            Node y = 7;
+            Node z = 11;
+            Node r = x - y + z;
+
+            r.Propagate();
+            Assert.IsTrue(r.Value == 1);
+
+            r.BackPropagate();
+            Assert.IsTrue(x.Derivative == 1);
+            Assert.IsTrue(y.Derivative == -1);
+            Assert.IsTrue(z.Derivative == 1);
+        }
+
+        [TestMethod]
+        public void Case13()
+        {
+            Node x, y, u, v, a, b, r;
+            x = -3;
+            y = 2;
+            u = x - y;
+            v = x * y;
+            a = 3 * u - 2 * v;
+            b = 7 * (u - v);
+            r = x + y - u + v + a + b - x * y * u * v * a * b;
+
+            r.Propagate();
+            Assert.IsTrue(r.Value == -3778);
+
+            r.BackPropagate();
+            Assert.IsTrue(x.Derivative == 5790);
+            Assert.IsTrue(y.Derivative == -8300);
+        }
+
+        [TestMethod]
+        public void Case14()
+        {
+            Node x, y, u, r;
+            x = 7;
+            y = 13;
+            u = x - y;
+            r = x - u;
+
+            r.Propagate();
+            Assert.IsTrue(r.Value == 13);
+
+            r.BackPropagate();
+            Assert.IsTrue(x.Derivative == 0);
+            Assert.IsTrue(y.Derivative == 1);
         }
     }
 }

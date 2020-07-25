@@ -9,12 +9,6 @@ namespace AutoDiff.Test
     [TestClass]
     public class BackPropagateTest
     {
-        /// <summary>
-        /// x = 10
-        /// y = 20
-        /// z = 30
-        /// r = (x + y) * (y + z)
-        /// </summary>
         [TestMethod]
         public void Case1()
         {
@@ -36,10 +30,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(z.Derivative == 30);
         }
 
-        /// <summary>
-        /// x = 5
-        /// y = x + x + x
-        /// </summary>
         [TestMethod]
         public void Case2()
         {
@@ -53,10 +43,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(x.Derivative == 3);
         }
 
-        /// <summary>
-        /// x = 5
-        /// y = x * x * x
-        /// </summary>
         [TestMethod]
         public void Case3()
         {
@@ -70,11 +56,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(x.Derivative == 75);
         }
 
-        /// <summary>
-        /// x = 1
-        /// y = 2
-        /// r = (x + y) * (x + y)
-        /// </summary>
         [TestMethod]
         public void Case4()
         {
@@ -92,10 +73,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Derivative == 6);
         }
 
-        /// <summary>
-        /// x = 12
-        /// y = (x + 1) * (2 * x + 5)
-        /// </summary>
         [TestMethod]
         public void Case5()
         {
@@ -109,13 +86,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(x.Derivative == 55);
         }
 
-        /// <summary>
-        /// x = 1
-        /// y = 2
-        /// u = x + y, 
-        /// v = x * y, 
-        /// r = u * v + v * u
-        /// </summary>
         [TestMethod]
         public void Case6()
         {
@@ -135,12 +105,6 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Derivative == 10);
         }
 
-        /// <summary>
-        /// x = 1
-        /// y = x + x
-        /// z = y + y
-        /// r = y + z
-        /// </summary>
         [TestMethod]
         public void Case7()
         {
@@ -153,6 +117,23 @@ namespace AutoDiff.Test
             r.BackPropagate();
 
             Assert.IsTrue(x.Derivative == 6);
+        }
+
+        [TestMethod]
+        public void Case8()
+        {
+            Node x = 12;
+            Node y = 13;
+            Node z = 3 * x + 7;
+            Node w = 7 - x;
+
+            z.Propagate();
+            z.BackPropagate();
+            Assert.IsTrue(x.Derivative == 3);
+
+            w.Propagate();
+            w.BackPropagate();
+            Assert.IsTrue(x.Derivative == -1);
         }
     }
 }
