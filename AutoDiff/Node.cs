@@ -204,9 +204,26 @@ namespace AutoDiff
             return new Mul(lhs, rhs);
         }
 
+        /// <summary>
+        /// 重载/运算符
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static Node operator /(Node lhs, Node rhs)
         {
             return new Div(lhs, rhs);
+        }
+
+        /// <summary>
+        /// 重载^运算符
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
+        public static Node operator ^(Node lhs, Node rhs)
+        {
+            return new Pow(lhs, rhs);
         }
     }
 
@@ -316,6 +333,28 @@ namespace AutoDiff
         public override List<double> Diff(List<double> input)
         {
             return new List<double> { 1 / input[1], -input[0] / (input[1] * input[1]) };
+        }
+    }
+
+    /// <summary>
+    /// 幂运算节点
+    /// </summary>
+    public class Pow : Node
+    {
+        public Pow(Node lhs, Node rhs)
+        {
+            AddChild(lhs);
+            AddChild(rhs);
+        }
+
+        public override double Eval(List<double> input)
+        {
+            return Math.Pow(input[0], input[1]);
+        }
+
+        public override List<double> Diff(List<double> input)
+        {
+            return new List<double> { input[1] * Math.Pow(input[0], input[1] - 1), Math.Pow(input[0], input[1]) * Math.Log(input[0]) };
         }
     }
 }
