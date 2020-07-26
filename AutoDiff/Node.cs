@@ -55,12 +55,16 @@ namespace AutoDiff
         /// <summary>
         /// 正向传播
         /// </summary>
-        public void Propagate()
+        public void Forward()
         {
-            Propagate(new Hashtable());
+            Forward(new Hashtable());
         }
 
-        private void Propagate(Hashtable book)
+        /// <summary>
+        /// 带记忆化搜索的正向传播
+        /// </summary>
+        /// <param name="book">记录已处理的节点</param>
+        private void Forward(Hashtable book)
         {
             if (book.Contains(this))
             {
@@ -71,7 +75,7 @@ namespace AutoDiff
             List<double> p = new List<double>();
             foreach (Node c in Children)
             {
-                c.Propagate(book);
+                c.Forward(book);
                 p.Add(c.Value);
             }
             Value = Eval(p);
@@ -80,7 +84,7 @@ namespace AutoDiff
         /// <summary>
         /// 反向传播
         /// </summary>
-        public void BackPropagate()
+        public void Backward()
         {
             // 记录所有节点的出度、梯度清零
             Hashtable outDegree = new Hashtable();

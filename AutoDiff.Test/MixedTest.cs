@@ -17,10 +17,10 @@ namespace AutoDiff.Test
             Node z = new Var(7);
             Node r = (x * y + z) + (x + y) * z;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == (5 * 4 + 7) + (5 + 4) * 7);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 11);
             Assert.IsTrue(y.Derivative == 12);
             Assert.IsTrue(z.Derivative == 10);
@@ -35,10 +35,10 @@ namespace AutoDiff.Test
             Node v = u * u;
             Node r = v + v;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == 6272882);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 545468);
             Assert.IsTrue(y.Derivative == 162932);
         }
@@ -52,10 +52,10 @@ namespace AutoDiff.Test
             Node w = new Var(7);
             Node r = (x * y + 3 * z + 6 * w) * (12 + y * z + 6 * w) + 10 * x * (y + z) * (w + 3);
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == 3049);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 737);
             Assert.IsTrue(y.Derivative == 1001);
             Assert.IsTrue(z.Derivative == 56);
@@ -71,12 +71,12 @@ namespace AutoDiff.Test
             Node v = x * y;
             Node r = 2 * u * v * v + 3 * u * u * v + 4;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(u.Value == 25);
             Assert.IsTrue(v.Value == 156);
             Assert.IsTrue(r.Value == 1509304);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(u.Derivative == 72072);
             Assert.IsTrue(v.Derivative == 17475);
             Assert.IsTrue(x.Derivative == 299247);
@@ -94,10 +94,10 @@ namespace AutoDiff.Test
             Node b = 7 * u * v;
             Node r = x + y + u + v + a + b + x * y * u * v * a * b;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == 22699);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == -78669);
             Assert.IsTrue(y.Derivative == -6829);
         }
@@ -108,10 +108,10 @@ namespace AutoDiff.Test
             Node x = 3;
             Node y = (-3) * x;
 
-            y.Propagate();
+            y.Forward();
             Assert.IsTrue(y.Value == -9);
 
-            y.BackPropagate();
+            y.Backward();
             Assert.IsTrue(x.Derivative == -3);
         }
 
@@ -121,10 +121,10 @@ namespace AutoDiff.Test
             Node x = 3;
             Node y = 155;
 
-            y.Propagate();
+            y.Forward();
             Assert.IsTrue(y.Value == 155);
 
-            y.BackPropagate();
+            y.Backward();
             Assert.IsTrue(y.Derivative == 1);
             Assert.IsTrue(x.Derivative == 0);
         }
@@ -140,10 +140,10 @@ namespace AutoDiff.Test
             Node w = x * y * z + (-7);
             Node r = 2 * x + 7 * (u * v + w) + (-16) * (v + w) + w * u + (-1) * u * v * w + 3 * y + 4 * z;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == 31672);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 906);
             Assert.IsTrue(y.Derivative == -7288);
             Assert.IsTrue(z.Derivative == -20139);
@@ -156,10 +156,10 @@ namespace AutoDiff.Test
             Node y = -5;
             Node r = x * x + y * y - 2 * x * y;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == 484);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 44);
             Assert.IsTrue(y.Derivative == -44);
         }
@@ -171,10 +171,10 @@ namespace AutoDiff.Test
             Node y = 2;
             Node r = x - (3 * x - 2 * y) * (x + y - 55) + 7 - 66;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == 474);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 134);
             Assert.IsTrue(y.Derivative == -107);
         }
@@ -187,10 +187,10 @@ namespace AutoDiff.Test
             Node z = 11;
             Node r = x - y - z;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == -21);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 1);
             Assert.IsTrue(y.Derivative == -1);
             Assert.IsTrue(z.Derivative == -1);
@@ -204,10 +204,10 @@ namespace AutoDiff.Test
             Node z = 11;
             Node r = x - y + z;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == 1);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 1);
             Assert.IsTrue(y.Derivative == -1);
             Assert.IsTrue(z.Derivative == 1);
@@ -225,10 +225,10 @@ namespace AutoDiff.Test
             b = 7 * (u - v);
             r = x + y - u + v + a + b - x * y * u * v * a * b;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == -3778);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 5790);
             Assert.IsTrue(y.Derivative == -8300);
         }
@@ -242,10 +242,10 @@ namespace AutoDiff.Test
             u = x - y;
             r = x - u;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == 13);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 0);
             Assert.IsTrue(y.Derivative == 1);
         }
@@ -257,16 +257,16 @@ namespace AutoDiff.Test
             Node y = x - 1;
             Node z = 7 - x;
 
-            y.Propagate();
+            y.Forward();
             Assert.IsTrue(y.Value == 11);
 
-            y.BackPropagate();
+            y.Backward();
             Assert.IsTrue(x.Derivative == 1);
 
-            z.Propagate();
+            z.Forward();
             Assert.IsTrue(z.Value == -5);
 
-            z.BackPropagate();
+            z.Backward();
             Assert.IsTrue(x.Derivative == -1);
         }
 
@@ -277,10 +277,10 @@ namespace AutoDiff.Test
             Node y = 5;
             Node r = y;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == 5);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 0);
             Assert.IsTrue(y.Derivative == 1);
         }
@@ -291,10 +291,10 @@ namespace AutoDiff.Test
             Node x = 10;
             Node y = 7 + x - x;
 
-            y.Propagate();
+            y.Forward();
             Assert.IsTrue(y.Value == 7);
 
-            y.BackPropagate();
+            y.Backward();
             Assert.IsTrue(x.Derivative == 0);
         }
 
@@ -306,10 +306,10 @@ namespace AutoDiff.Test
             Node z = y + y;
             Node r = y + z;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == 6);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 6);
         }
 
@@ -319,10 +319,10 @@ namespace AutoDiff.Test
             Node x = 5;
             Node y = x + x + x;
 
-            y.Propagate();
+            y.Forward();
             Assert.IsTrue(y.Value == 15);
 
-            y.BackPropagate();
+            y.Backward();
             Assert.IsTrue(x.Derivative == 3);
         }
 
@@ -332,10 +332,10 @@ namespace AutoDiff.Test
             Node x = 5;
             Node y = 2 * x + 3 * x + 5 * x;
 
-            y.Propagate();
+            y.Forward();
             Assert.IsTrue(y.Value == 50);
 
-            y.BackPropagate();
+            y.Backward();
             Assert.IsTrue(x.Derivative == 10);
         }
 
@@ -353,10 +353,10 @@ namespace AutoDiff.Test
             d2 = k * x2 + b - y2;
             loss = d1 * d1 + d2 * d2;
 
-            loss.Propagate();
+            loss.Forward();
             Assert.IsTrue(loss.Value == 73);
 
-            loss.BackPropagate();
+            loss.Backward();
             Assert.IsTrue(k.Derivative == -92);
             Assert.IsTrue(b.Derivative == -10);
         }
@@ -379,10 +379,10 @@ namespace AutoDiff.Test
             d3 = a * x3 * x3 + b * x3 + c - y3;
             loss = d1 * d1 + d2 * d2 + d3 * d3;
 
-            loss.Propagate();
+            loss.Forward();
             Assert.IsTrue(loss.Value == 2894);
 
-            loss.BackPropagate();
+            loss.Backward();
             Assert.IsTrue(a.Derivative == 988);
             Assert.IsTrue(b.Derivative == -308);
             Assert.IsTrue(c.Derivative == 104);
@@ -396,10 +396,10 @@ namespace AutoDiff.Test
             Node z = y + y;
             Node r = x - y - z;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == -10);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == -11);
         }
 
@@ -412,10 +412,10 @@ namespace AutoDiff.Test
             Node w = u + v;
             Node r = v + w;
 
-            r.Propagate();
+            r.Forward();
             Assert.IsTrue(r.Value == 17);
 
-            r.BackPropagate();
+            r.Backward();
             Assert.IsTrue(x.Derivative == 2);
             Assert.IsTrue(y.Derivative == 3);
             Assert.IsTrue(z.Derivative == 3);

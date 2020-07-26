@@ -17,9 +17,9 @@ namespace AutoDiff
             double rate = 0.1;
             for (int i = 0; i < 100; ++i)
             {
-                y.Propagate();
+                y.Forward();
                 Console.WriteLine("x = " + x.Value + "\ty = " + y.Value);
-                y.BackPropagate();
+                y.Backward();
                 x.Value -= rate * x.Derivative;
             }
 
