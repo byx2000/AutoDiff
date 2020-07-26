@@ -31,7 +31,7 @@ namespace AutoDiff
         /// <summary>
         /// 计算值
         /// </summary>
-        public double Value { get; set; }
+        public double Value { get; private set; }
 
         /// <summary>
         /// 导数值
@@ -232,6 +232,8 @@ namespace AutoDiff
     /// </summary>
     public class Var : Node
     {
+        public new double Value { get; set; }
+
         public Var(double value)
         {
             Value = value;
@@ -245,6 +247,15 @@ namespace AutoDiff
         public override List<double> Diff(List<double> input)
         {
             return new List<double>();
+        }
+
+        /// <summary>
+        /// 将浮点常数转换为变量节点
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator Var(double value)
+        {
+            return new Var(value);
         }
     }
 
