@@ -338,5 +338,87 @@ namespace AutoDiff.Test
             y.BackPropagate();
             Assert.IsTrue(x.Derivative == 10);
         }
+
+        [TestMethod]
+        public void Case21()
+        {
+            Node x1, y1, x2, y2, k, b, d1, d2, loss;
+            x1 = 5;
+            y1 = 7;
+            x2 = -2;
+            y2 = 3;
+            k = -1;
+            b = 4;
+            d1 = k * x1 + b - y1;
+            d2 = k * x2 + b - y2;
+            loss = d1 * d1 + d2 * d2;
+
+            loss.Propagate();
+            Assert.IsTrue(loss.Value == 73);
+
+            loss.BackPropagate();
+            Assert.IsTrue(k.Derivative == -92);
+            Assert.IsTrue(b.Derivative == -10);
+        }
+
+        [TestMethod]
+        public void Case22()
+        {
+            Node x1, y1, x2, y2, x3, y3, a, b, c, d1, d2, d3, loss;
+            x1 = 2;
+            y1 = 7;
+            x2 = 1;
+            y2 = 5;
+            x3 = -3;
+            y3 = 5;
+            a = 6;
+            b = -3;
+            c = -5;
+            d1 = a * x1 * x1 + b * x1 + c - y1;
+            d2 = a * x2 * x2 + b * x2 + c - y2;
+            d3 = a * x3 * x3 + b * x3 + c - y3;
+            loss = d1 * d1 + d2 * d2 + d3 * d3;
+
+            loss.Propagate();
+            Assert.IsTrue(loss.Value == 2894);
+
+            loss.BackPropagate();
+            Assert.IsTrue(a.Derivative == 988);
+            Assert.IsTrue(b.Derivative == -308);
+            Assert.IsTrue(c.Derivative == 104);
+        }
+
+        [TestMethod]
+        public void Case23()
+        {
+            Node x = 2;
+            Node y = x * x;
+            Node z = y + y;
+            Node r = x - y - z;
+
+            r.Propagate();
+            Assert.IsTrue(r.Value == -10);
+
+            r.BackPropagate();
+            Assert.IsTrue(x.Derivative == -11);
+        }
+
+        [TestMethod]
+        public void Case24()
+        {
+            Node x = 1, y = 2, z = 3;
+            Node u = y + z;
+            Node v = u + x;
+            Node w = u + v;
+            Node r = v + w;
+
+            r.Propagate();
+            Assert.IsTrue(r.Value == 17);
+
+            r.BackPropagate();
+            Assert.IsTrue(x.Derivative == 2);
+            Assert.IsTrue(y.Derivative == 3);
+            Assert.IsTrue(z.Derivative == 3);
+        }
     }
 }
