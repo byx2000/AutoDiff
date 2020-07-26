@@ -5,18 +5,22 @@ namespace AutoDiff
 {
     class Program
     {
-        static Random rand = new Random();
-
         static void Main()
         {
             Sample.RunSample1();
             Sample.RunSample2();
 
-            //Var x = 12;
-            //x.Value = -1;
+            Var r = 3;
+            Const pi = 3.14;
+            Node s = pi * r * r;
 
-            //Var y = x + 1;
-            //y.Value = 12;
+            s.Forward();
+            Console.WriteLine(s.Value);
+
+            s.Backward();
+            Console.WriteLine(r.Derivative);
+            Console.WriteLine(pi.Derivative);
+            
 
             Console.WriteLine("请按任意键继续...");
             Console.ReadKey();

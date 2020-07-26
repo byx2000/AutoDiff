@@ -26,7 +26,7 @@ namespace AutoDiff
         public IReadOnlyList<Node> Parents
         {
             get { return parents; }
-        }        
+        }
 
         /// <summary>
         /// 计算值
@@ -168,7 +168,7 @@ namespace AutoDiff
         /// <param name="value"></param>
         public static implicit operator Node(double value)
         {
-            return new Var(value);
+            return new Const(value);
         }
 
         /// <summary>
@@ -228,13 +228,45 @@ namespace AutoDiff
     }
 
     /// <summary>
+    /// 常量节点
+    /// </summary>
+    public class Const : Node
+    {
+        public new double Value { get; }
+
+        public Const(double value)
+        {
+            Value = value;
+        }
+
+        public override double Eval(List<double> input)
+        {
+            return Value;
+        }
+
+        public override List<double> Diff(List<double> input)
+        {
+            return new List<double>();
+        }
+
+        /// <summary>
+        /// 将浮点常数转换为常数节点
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator Const(double value)
+        {
+            return new Const(value);
+        }
+    }
+
+    /// <summary>
     /// 变量节点
     /// </summary>
     public class Var : Node
     {
         public new double Value { get; set; }
 
-        public Var(double value)
+        public Var(double value = 0)
         {
             Value = value;
         }
@@ -256,6 +288,15 @@ namespace AutoDiff
         public static implicit operator Var(double value)
         {
             return new Var(value);
+        }
+
+        /// <summary>
+        /// 将常数节点转换为变量节点
+        /// </summary>
+        /// <param name="c"></param>
+        public static implicit operator Var(Const c)
+        {
+            return new Var(c.Value);
         }
     }
 

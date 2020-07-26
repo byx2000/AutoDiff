@@ -12,9 +12,9 @@ namespace AutoDiff.Test
         [TestMethod]
         public void Case1()
         {
-            Node x = new Var(10);
-            Node y = new Var(20);
-            Node z = new Var(30);
+            Var x = 10;
+            Var y = 20;
+            Var z = 30;
             Node v = x + y;
             Node w = y + z;
             Node r = v * w;
@@ -53,7 +53,7 @@ namespace AutoDiff.Test
         [TestMethod]
         public void Case2()
         {
-            Node x = new Var(5);
+            Var x = 5;
             Node y = x + x + x;
 
             Assert.IsTrue(x.Children.Count == 0);
@@ -71,7 +71,7 @@ namespace AutoDiff.Test
         [TestMethod]
         public void Case3()
         {
-            Node x = new Var(5);
+            Var x = 5;
             Node y = x * x * x;
 
             Assert.IsTrue(x.Children.Count == 0);
@@ -89,8 +89,8 @@ namespace AutoDiff.Test
         [TestMethod]
         public void Case4()
         {
-            Node x = new Var(1);
-            Node y = new Var(2);
+            Var x = 1;
+            Var y = 2;
             Node u = x + y;
             Node r = u * u;
 
@@ -118,7 +118,7 @@ namespace AutoDiff.Test
         [TestMethod]
         public void Case5()
         {
-            Node x = new Var(12);
+            Var x = 12;
             Node y = (x + 1) * (2 * x + 5);
 
             Assert.IsTrue(x.Children.Count == 0);
@@ -133,8 +133,8 @@ namespace AutoDiff.Test
         [TestMethod]
         public void Case6()
         {
-            Node x = new Var(1);
-            Node y = new Var(2);
+            Var x = 1;
+            Var y = 2;
             Node u = x + y;
             Node v = x * y;
             Node r = u * v + v * u;
@@ -173,7 +173,7 @@ namespace AutoDiff.Test
         [TestMethod]
         public void Case7()
         {
-            Node x = 1;
+            Var x = 1;
             Node y = x + x;
             Node z = y + y;
             Node r = y + z;
@@ -191,7 +191,7 @@ namespace AutoDiff.Test
         [TestMethod]
         public void Case8()
         {
-            Node x = 12;
+            Var x = 12;
             Node y = x - 1;
             Node z = 7 - x;
 

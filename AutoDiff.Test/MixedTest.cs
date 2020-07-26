@@ -683,5 +683,26 @@ namespace AutoDiff.Test
             Assert.AreEqual(y.Derivative, 1572864 * Math.Log(4), epsilon);
             Assert.AreEqual(z.Derivative, 2359296 * Math.Log(3) * Math.Log(4), epsilon);
         }
+
+        [TestMethod]
+        public void Case43()
+        {
+            Var r = 3;
+            Const pi = 3.14;
+            Node s = pi * r * r;
+
+            s.Forward();
+            Assert.IsTrue(s.Value == 3.14 * 3 * 3);
+
+            s.Backward();
+            Assert.IsTrue(r.Derivative == 2 * 3.14 * 3);
+
+            r.Value = 4;
+            s.Forward();
+            Assert.IsTrue(s.Value == 3.14 * 4 * 4);
+
+            s.Backward();
+            Assert.IsTrue(r.Derivative == 2 * 3.14 * 4);
+        }
     }
 }
