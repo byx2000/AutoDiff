@@ -420,5 +420,164 @@ namespace AutoDiff.Test
             Assert.IsTrue(y.Derivative == 3);
             Assert.IsTrue(z.Derivative == 3);
         }
+
+        [TestMethod]
+        public void Case25()
+        {
+            Node x = 1, y = 2, z = 3;
+            Node r = x - (y - z);
+
+            r.Forward();
+            Assert.IsTrue(r.Value == 2);
+
+            r.Backward();
+            Assert.IsTrue(x.Derivative == 1);
+            Assert.IsTrue(y.Derivative == -1);
+            Assert.IsTrue(z.Derivative == 1);
+        }
+
+        [TestMethod]
+        public void Case26()
+        {
+            Node x = 3;
+            Node y = 1 / x;
+
+            y.Forward();
+            Assert.IsTrue(y.Value == 1.0 / 3);
+
+            y.Backward();
+            Assert.IsTrue(x.Derivative == -1.0 / 9);
+        }
+
+        [TestMethod]
+        public void Case27()
+        {
+            Node x = 3;
+            Node y = x / 2;
+
+            y.Forward();
+            Assert.IsTrue(y.Value == 3 / 2.0);
+
+            y.Backward();
+            Assert.IsTrue(x.Derivative == 1 / 2.0);
+        }
+
+        [TestMethod]
+        public void Case28()
+        {
+            Node x = 37, y = 12;
+            Node r = x / y;
+
+            r.Forward();
+            Assert.IsTrue(r.Value == 37.0 / 12);
+
+            r.Backward();
+            Assert.IsTrue(x.Derivative == 1.0 / 12);
+            Assert.IsTrue(y.Derivative == -37.0 / (12 * 12));
+        }
+
+        [TestMethod]
+        public void Case29()
+        {
+            Node x = 3, y = -4;
+            Node r = (x + y) / (x - y);
+
+            r.Forward();
+            Assert.IsTrue(r.Value == -1 / 7.0);
+
+            r.Backward();
+            Assert.IsTrue(x.Derivative == 8 / 49.0);
+            Assert.IsTrue(y.Derivative == 6 / 49.0);
+        }
+
+        [TestMethod]
+        public void Case30()
+        {
+            Node x = 3, y = -4;
+            Node r = 1 / (1 + x * y) - (x * x + y * y) / (2 * x * y);
+
+            r.Forward();
+            Assert.IsTrue(r.Value == 251 / 264.0);
+
+            r.Backward();
+            Assert.AreEqual(x.Derivative, -559 / 8712.0, 1e-6);
+            Assert.AreEqual(y.Derivative, -1135 / 11616.0, 1e-6);
+        }
+
+        [TestMethod]
+        public void Case31()
+        {
+            Node x = 3, y = -4, z = 2;
+            Node r = x / y / z;
+
+            r.Forward();
+            Assert.IsTrue(r.Value == -3 / 8.0);
+
+            r.Backward();
+            Assert.IsTrue(x.Derivative == -1 / 8.0);
+            Assert.IsTrue(y.Derivative == -3 / 32.0);
+            Assert.IsTrue(z.Derivative == 3 / 16.0);
+        }
+
+        [TestMethod]
+        public void Case32()
+        {
+            Node x = 3, y = -4, z = 2;
+            Node r = x / (y / z);
+
+            r.Forward();
+            Assert.IsTrue(r.Value == -3 / 2.0);
+
+            r.Backward();
+            Assert.IsTrue(x.Derivative == -1 / 2.0);
+            Assert.IsTrue(y.Derivative == -3 / 8.0);
+            Assert.IsTrue(z.Derivative == -3 / 4.0);
+        }
+
+        [TestMethod]
+        public void Case33()
+        {
+            Node x = 3, y = 2;
+            Node r = x / y * y;
+
+            r.Forward();
+            Assert.IsTrue(r.Value == 3);
+
+            r.Backward();
+            Assert.IsTrue(x.Derivative == 1);
+            Assert.IsTrue(y.Derivative == 0);
+        }
+
+        [TestMethod]
+        public void Case34()
+        {
+            Node x = 3, y = 2;
+            Node r = x * y / y;
+
+            r.Forward();
+            Assert.IsTrue(r.Value == 3);
+
+            r.Backward();
+            Assert.IsTrue(x.Derivative == 1);
+            Assert.IsTrue(y.Derivative == 0);
+        }
+
+        [TestMethod]
+        public void Case35()
+        {
+            Node x, y, u, v, r;
+            x = 7;
+            y = 3;
+            u = x / y;
+            v = y / x;
+            r = 1 / x - (2 * u + 3 * v) / (5 * u - 7 * v + 2) + 1 / y;
+
+            r.Forward();
+            Assert.AreEqual(r.Value, -55 / 672.0, 1e-6);
+
+            r.Backward();
+            Assert.AreEqual(x.Derivative, 551 / 12544.0, 1e-6);
+            Assert.AreEqual(y.Derivative, -4213 / 16128.0, 1e-6);
+        }
     }
 }

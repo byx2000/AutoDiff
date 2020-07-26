@@ -10,7 +10,7 @@ namespace AutoDiff
     /// </summary>
     public abstract class Node
     {
-        private List<Node> children = new List<Node>();
+        private readonly List<Node> children = new List<Node>();
         /// <summary>
         /// 子节点列表
         /// </summary>
@@ -19,7 +19,7 @@ namespace AutoDiff
             get { return children; }
         }
 
-        private List<Node> parents = new List<Node>();
+        private readonly List<Node> parents = new List<Node>();
         /// <summary>
         /// 父节点列表
         /// </summary>
@@ -42,14 +42,14 @@ namespace AutoDiff
         /// 求值（子类实现）
         /// </summary>
         /// <param name="input">参数数组</param>
-        /// <returns></returns>
+        /// <returns>计算值</returns>
         public abstract double Eval(List<double> input);
 
         /// <summary>
         /// 求导数（子类实现）
         /// </summary>
         /// <param name="input">参数数组</param>
-        /// <returns></returns>
+        /// <returns>对各个输入参数的偏导数</returns>
         public abstract List<double> Diff(List<double> input);
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace AutoDiff
         }
 
         /// <summary>
-        /// 重载-运算符
+        /// 重载*运算符
         /// </summary>
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
@@ -202,6 +202,11 @@ namespace AutoDiff
         public static Node operator *(Node lhs, Node rhs)
         {
             return new Mul(lhs, rhs);
+        }
+
+        public static Node operator /(Node lhs, Node rhs)
+        {
+            return new Div(lhs, rhs);
         }
     }
 
@@ -289,6 +294,28 @@ namespace AutoDiff
         public override List<double> Diff(List<double> input)
         {
             return new List<double> { input[1], input[0] };
+        }
+    }
+
+    /// <summary>
+    /// 除法节点
+    /// </summary>
+    public class Div : Node
+    {
+        public Div(Node lhs, Node rhs)
+        {
+            AddChild(lhs);
+            AddChild(rhs);
+        }
+
+        public override double Eval(List<double> input)
+        {
+            return input[0] / input[1];
+        }
+
+        public override List<double> Diff(List<double> input)
+        {
+            return new List<double> { 1 / input[1], -input[0] / (input[1] * input[1]) };
         }
     }
 }
