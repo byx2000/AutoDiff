@@ -758,5 +758,17 @@ namespace AutoDiff.Test
             y.Backward();
             Assert.IsTrue(x.Derivative == 10);
         }
+
+        [TestMethod]
+        public void Case48()
+        {
+            Const pi = 3.14;
+            Assert.IsTrue(pi.Value == 3.14);
+            Var x = pi;
+            Assert.IsTrue(x.Value == 3.14);
+            x.Value = 12;
+            Assert.IsTrue(x.Value == 12);
+            Assert.IsTrue(pi.Value == 3.14);
+        }
     }
 }
