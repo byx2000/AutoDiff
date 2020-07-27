@@ -11,9 +11,9 @@ namespace AutoDiff
     /// </summary>
     public abstract class UnaryNode : Node
     {
-        public UnaryNode(Node node)
+        public UnaryNode(Node expr)
         {
-            AddChild(node);
+            AddChild(expr);
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace AutoDiff
     /// <summary>
     /// 负号节点
     /// </summary>
-    class Neg : UnaryNode
+    public class Neg : UnaryNode
     {
-        public Neg(Node node) : base(node) { }
+        public Neg(Node expr) : base(expr) { }
 
         protected override double Eval(double x)
         {
@@ -56,6 +56,24 @@ namespace AutoDiff
         protected override double Diff(double x)
         {
             return -1;
+        }
+    }
+
+    /// <summary>
+    /// 以e为底的指数函数
+    /// </summary>
+    public class Exp : UnaryNode
+    {
+        public Exp(Node expr) : base(expr) { }
+
+        protected override double Eval(double x)
+        {
+            return Math.Exp(x);
+        }
+
+        protected override double Diff(double x)
+        {
+            return Math.Exp(x);
         }
     }
 }

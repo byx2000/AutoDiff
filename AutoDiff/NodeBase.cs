@@ -231,11 +231,30 @@ namespace AutoDiff
         /// <summary>
         /// 重载负号运算符
         /// </summary>
-        /// <param name="node"></param>
+        /// <param name="expr"></param>
         /// <returns></returns>
-        public static Node operator -(Node node)
+        public static Node operator -(Node expr)
         {
-            return new Neg(node);
+            return new Neg(expr);
+        }
+
+        /// <summary>
+        /// 求幂
+        /// </summary>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
+        public Node Pow(Node rhs)
+        {
+            return new Pow(this, rhs);
+        }
+
+        /// <summary>
+        /// 自然对数的幂
+        /// </summary>
+        /// <returns></returns>
+        public Node Exp()
+        {
+            return new Exp(this);
         }
     }
 }

@@ -770,5 +770,32 @@ namespace AutoDiff.Test
             Assert.IsTrue(x.Value == 12);
             Assert.IsTrue(pi.Value == 3.14);
         }
+
+        [TestMethod]
+        public void Case49()
+        {
+            Var x = 3;
+            Node y = x.Exp();
+
+            y.Forward();
+            Assert.IsTrue(y.Value == Math.Exp(3));
+
+            y.Backward();
+            Assert.IsTrue(x.Derivative == Math.Exp(3));
+        }
+
+        [TestMethod]
+        public void Case50()
+        {
+            Var x = 3, y = -2;
+            Node r = (-(x.Pow(2) + y.Pow(2))).Exp();
+
+            r.Forward();
+            Assert.IsTrue(r.Value == 1 / Math.Exp(13));
+
+            r.Backward();
+            Assert.AreEqual(x.Derivative, -6 / Math.Exp(13), epsilon);
+            Assert.AreEqual(y.Derivative, 4 / Math.Exp(13), epsilon);
+        }
     }
 }
