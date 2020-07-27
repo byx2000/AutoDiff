@@ -704,5 +704,59 @@ namespace AutoDiff.Test
             s.Backward();
             Assert.IsTrue(r.Derivative == 2 * 3.14 * 4);
         }
+
+        [TestMethod]
+        public void Case44()
+        {
+            Var x = 13;
+            Node y = -x + 3;
+
+            y.Forward();
+            Assert.IsTrue(y.Value == -10);
+
+            y.Backward();
+            Assert.IsTrue(x.Derivative == -1);
+        }
+
+        [TestMethod]
+        public void Case45()
+        {
+            Var x = 13;
+            Node y = 2 * x * (-x);
+
+            y.Forward();
+            Assert.IsTrue(y.Value == -338);
+
+            y.Backward();
+            Assert.IsTrue(x.Derivative == -52);
+        }
+
+        [TestMethod]
+        public void Case46()
+        {
+            Var x = 5;
+            Node u = x;
+            Node v = -x;
+            Node r = u + v;
+
+            r.Forward();
+            Assert.IsTrue(r.Value == 0);
+
+            r.Backward();
+            Assert.IsTrue(x.Derivative == 0);
+        }
+
+        [TestMethod]
+        public void Case47()
+        {
+            Var x = -2;
+            Node y = -((x ^ 2) - 6 * x + 5);
+
+            y.Forward();
+            Assert.IsTrue(y.Value == -21);
+
+            y.Backward();
+            Assert.IsTrue(x.Derivative == 10);
+        }
     }
 }
