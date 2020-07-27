@@ -10,22 +10,22 @@ namespace AutoDiff
     /// <summary>
     /// 计算节点抽象基类
     /// </summary>
-    public abstract class Node
+    public abstract class Expr
     {
-        private readonly List<Node> children = new List<Node>();
+        private readonly List<Expr> children = new List<Expr>();
         /// <summary>
         /// 子节点列表
         /// </summary>
-        public IReadOnlyList<Node> Children
+        public IReadOnlyList<Expr> Children
         {
             get { return children; }
         }
 
-        private readonly List<Node> parents = new List<Node>();
+        private readonly List<Expr> parents = new List<Expr>();
         /// <summary>
         /// 父节点列表
         /// </summary>
-        public IReadOnlyList<Node> Parents
+        public IReadOnlyList<Expr> Parents
         {
             get { return parents; }
         }
@@ -75,7 +75,7 @@ namespace AutoDiff
             book[this] = 1;
 
             List<double> p = new List<double>();
-            foreach (Node c in Children)
+            foreach (Expr c in Children)
             {
                 c.Forward(book);
                 p.Add(c.Value);
@@ -95,15 +95,15 @@ namespace AutoDiff
             Derivative = 1;
 
             // 按拓扑排序处理节点
-            Queue<Node> ready = new Queue<Node>();
+            Queue<Expr> ready = new Queue<Expr>();
             ready.Enqueue(this);
             while (ready.Count > 0)
             {
                 // 获取当前节点
-                Node cur = ready.Dequeue();
+                Expr cur = ready.Dequeue();
 
                 // 更新节点出度，添加出度为0的节点到就绪队列
-                foreach (Node c in cur.Children)
+                foreach (Expr c in cur.Children)
                 {
                     int val = (int)outDegree[c];
                     outDegree[c] = val - 1;
@@ -115,7 +115,7 @@ namespace AutoDiff
 
                 // 计算本地梯度
                 List<double> input = new List<double>();
-                foreach (Node c in cur.Children)
+                foreach (Expr c in cur.Children)
                 {
                     input.Add(c.Value);
                 }
@@ -148,7 +148,7 @@ namespace AutoDiff
             inDegree[this] = parents.Count;
 
             // 递归处理子节点
-            foreach (Node c in Children)
+            foreach (Expr c in Children)
             {
                 c.BackPropagatePreparation(inDegree);
             }
@@ -158,7 +158,7 @@ namespace AutoDiff
         /// 添加子节点
         /// </summary>
         /// <param name="n"></param>
-        protected void AddChild(Node n)
+        protected void AddChild(Expr n)
         {
             children.Add(n);
             n.parents.Add(this);
@@ -168,7 +168,7 @@ namespace AutoDiff
         /// 将浮点常数转换为计算节点
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator Node(double value)
+        public static implicit operator Expr(double value)
         {
             return new Const(value);
         }
@@ -179,7 +179,7 @@ namespace AutoDiff
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public static Node operator +(Node lhs, Node rhs)
+        public static Expr operator +(Expr lhs, Expr rhs)
         {
             return new Add(lhs, rhs);
         }
@@ -190,7 +190,7 @@ namespace AutoDiff
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public static Node operator -(Node lhs, Node rhs)
+        public static Expr operator -(Expr lhs, Expr rhs)
         {
             return new Sub(lhs, rhs);
         }
@@ -201,7 +201,7 @@ namespace AutoDiff
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public static Node operator *(Node lhs, Node rhs)
+        public static Expr operator *(Expr lhs, Expr rhs)
         {
             return new Mul(lhs, rhs);
         }
@@ -212,7 +212,7 @@ namespace AutoDiff
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public static Node operator /(Node lhs, Node rhs)
+        public static Expr operator /(Expr lhs, Expr rhs)
         {
             return new Div(lhs, rhs);
         }
@@ -223,7 +223,7 @@ namespace AutoDiff
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public static Node operator ^(Node lhs, Node rhs)
+        public static Expr operator ^(Expr lhs, Expr rhs)
         {
             return new Pow(lhs, rhs);
         }
@@ -233,7 +233,7 @@ namespace AutoDiff
         /// </summary>
         /// <param name="expr"></param>
         /// <returns></returns>
-        public static Node operator -(Node expr)
+        public static Expr operator -(Expr expr)
         {
             return new Neg(expr);
         }
@@ -243,7 +243,7 @@ namespace AutoDiff
         /// </summary>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public Node Pow(Node rhs)
+        public Expr Pow(Expr rhs)
         {
             return new Pow(this, rhs);
         }
@@ -252,7 +252,7 @@ namespace AutoDiff
         /// 自然对数的幂
         /// </summary>
         /// <returns></returns>
-        public Node Exp()
+        public Expr Exp()
         {
             return new Exp(this);
         }

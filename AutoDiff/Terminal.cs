@@ -9,7 +9,7 @@ namespace AutoDiff
     /// <summary>
     /// 常量节点
     /// </summary>
-    public class Const : Node
+    public class Const : Expr
     {
         public new double Value { get; }
 
@@ -41,7 +41,7 @@ namespace AutoDiff
     /// <summary>
     /// 变量节点
     /// </summary>
-    public class Var : Node
+    public class Var : Expr
     {
         public new double Value { get; set; }
 

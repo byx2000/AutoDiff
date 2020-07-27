@@ -9,14 +9,14 @@ namespace AutoDiff
     /// <summary>
     /// 二元运算节点抽象基类
     /// </summary>
-    public abstract class BinaryNode : Node
+    public abstract class BinaryOp : Expr
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="lhs">左表达式</param>
         /// <param name="rhs">右表达式</param>
-        public BinaryNode(Node lhs, Node rhs)
+        public BinaryOp(Expr lhs, Expr rhs)
         {
             AddChild(lhs);
             AddChild(rhs);
@@ -54,9 +54,9 @@ namespace AutoDiff
     /// <summary>
     /// 加法节点
     /// </summary>
-    public class Add : BinaryNode
+    public class Add : BinaryOp
     {
-        public Add(Node lhs, Node rhs) : base(lhs, rhs) { }
+        public Add(Expr lhs, Expr rhs) : base(lhs, rhs) { }
 
         protected override double Eval(double lhs, double rhs)
         {
@@ -73,9 +73,9 @@ namespace AutoDiff
     /// <summary>
     /// 减法节点
     /// </summary>
-    public class Sub : BinaryNode
+    public class Sub : BinaryOp
     {
-        public Sub(Node lhs, Node rhs) : base(lhs, rhs) { }
+        public Sub(Expr lhs, Expr rhs) : base(lhs, rhs) { }
 
         protected override double Eval(double lhs, double rhs)
         {
@@ -92,9 +92,9 @@ namespace AutoDiff
     /// <summary>
     /// 乘法节点
     /// </summary>
-    public class Mul : BinaryNode
+    public class Mul : BinaryOp
     {
-        public Mul(Node lhs, Node rhs) : base(lhs, rhs) { }
+        public Mul(Expr lhs, Expr rhs) : base(lhs, rhs) { }
 
         protected override double Eval(double lhs, double rhs)
         {
@@ -111,9 +111,9 @@ namespace AutoDiff
     /// <summary>
     /// 除法节点
     /// </summary>
-    public class Div : BinaryNode
+    public class Div : BinaryOp
     {
-        public Div(Node lhs, Node rhs) : base(lhs, rhs) { }
+        public Div(Expr lhs, Expr rhs) : base(lhs, rhs) { }
 
         protected override double Eval(double lhs, double rhs)
         {
@@ -130,9 +130,9 @@ namespace AutoDiff
     /// <summary>
     /// 幂运算节点
     /// </summary>
-    public class Pow : BinaryNode
+    public class Pow : BinaryOp
     {
-        public Pow(Node lhs, Node rhs) : base(lhs, rhs) { }
+        public Pow(Expr lhs, Expr rhs) : base(lhs, rhs) { }
 
         protected override double Eval(double lhs, double rhs)
         {

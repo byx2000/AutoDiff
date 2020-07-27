@@ -9,9 +9,9 @@ namespace AutoDiff
     /// <summary>
     /// 一元运算节点抽象基类
     /// </summary>
-    public abstract class UnaryNode : Node
+    public abstract class UnaryOp : Expr
     {
-        public UnaryNode(Node expr)
+        public UnaryOp(Expr expr)
         {
             AddChild(expr);
         }
@@ -44,9 +44,9 @@ namespace AutoDiff
     /// <summary>
     /// 负号节点
     /// </summary>
-    public class Neg : UnaryNode
+    public class Neg : UnaryOp
     {
-        public Neg(Node expr) : base(expr) { }
+        public Neg(Expr expr) : base(expr) { }
 
         protected override double Eval(double x)
         {
@@ -62,9 +62,9 @@ namespace AutoDiff
     /// <summary>
     /// 以e为底的指数函数
     /// </summary>
-    public class Exp : UnaryNode
+    public class Exp : UnaryOp
     {
-        public Exp(Node expr) : base(expr) { }
+        public Exp(Expr expr) : base(expr) { }
 
         protected override double Eval(double x)
         {

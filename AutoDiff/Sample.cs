@@ -18,7 +18,7 @@ namespace AutoDiff
             Console.WriteLine("Sample 1:");
 
             Var x = (rand.NextDouble() * 2 - 1) * 1000;
-            Node y = x * x;
+            Expr y = x * x;
 
             double rate = 0.1;
             int epoch = 100;
@@ -47,12 +47,12 @@ namespace AutoDiff
                 y.Add(2.5 * i - 3.7);
             }
 
-            Node loss = 0;
+            Expr loss = 0;
             Var k = rand.NextDouble();
             Var b = rand.NextDouble();
             for (int i = 0; i < x.Count; ++i)
             {
-                Node delta = k * x[i] + b - y[i];
+                Expr delta = k * x[i] + b - y[i];
                 loss += delta * delta;
             }
 
