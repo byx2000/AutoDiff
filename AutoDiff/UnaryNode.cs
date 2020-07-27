@@ -21,21 +21,21 @@ namespace AutoDiff
         /// </summary>
         /// <param name="x">操作数值</param>
         /// <returns>计算值</returns>
-        public abstract double Eval(double x);
+        protected abstract double Eval(double x);
 
         /// <summary>
         /// 计算操作数的导数值
         /// </summary>
         /// <param name="x">操作数值</param>
         /// <returns>导数值</returns>
-        public abstract double Diff(double x);
+        protected abstract double Diff(double x);
 
-        public override double Eval(List<double> input)
+        protected override double Eval(List<double> input)
         {
             return Eval(input[0]);
         }
 
-        public override List<double> Diff(List<double> input)
+        protected override List<double> Diff(List<double> input)
         {
             return new List<double> { Diff(input[0]) };
         }
@@ -48,12 +48,12 @@ namespace AutoDiff
     {
         public Neg(Node node) : base(node) { }
 
-        public override double Eval(double x)
+        protected override double Eval(double x)
         {
             return -x;
         }
 
-        public override double Diff(double x)
+        protected override double Diff(double x)
         {
             return -1;
         }

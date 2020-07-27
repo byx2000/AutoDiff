@@ -45,14 +45,14 @@ namespace AutoDiff
         /// </summary>
         /// <param name="input">参数数组</param>
         /// <returns>计算值</returns>
-        public abstract double Eval(List<double> input);
+        protected abstract double Eval(List<double> input);
 
         /// <summary>
         /// 求导数（子类实现）
         /// </summary>
         /// <param name="input">参数数组</param>
         /// <returns>对各个输入参数的偏导数</returns>
-        public abstract List<double> Diff(List<double> input);
+        protected abstract List<double> Diff(List<double> input);
 
         /// <summary>
         /// 正向传播

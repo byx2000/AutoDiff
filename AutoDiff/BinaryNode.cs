@@ -28,7 +28,7 @@ namespace AutoDiff
         /// <param name="lhs">左操作数的值</param>
         /// <param name="rhs">右操作数的值</param>
         /// <returns></returns>
-        public abstract double Eval(double lhs, double rhs);
+        protected abstract double Eval(double lhs, double rhs);
 
         /// <summary>
         /// 计算左右操作数的偏导数（子类实现）
@@ -37,14 +37,14 @@ namespace AutoDiff
         /// <param name="rhs">右操作数的值</param>
         /// <param name="dLhs">左操作数的偏导数</param>
         /// <param name="dRhs">右操作数的偏导数</param>
-        public abstract void Diff(double lhs, double rhs, out double dLhs, out double dRhs);
+        protected abstract void Diff(double lhs, double rhs, out double dLhs, out double dRhs);
 
-        public override double Eval(List<double> input)
+        protected override double Eval(List<double> input)
         {
             return Eval(input[0], input[1]);
         }
 
-        public override List<double> Diff(List<double> input)
+        protected override List<double> Diff(List<double> input)
         {
             Diff(input[0], input[1], out double dLhs, out double dRhs);
             return new List<double> { dLhs, dRhs };
@@ -58,12 +58,12 @@ namespace AutoDiff
     {
         public Add(Node lhs, Node rhs) : base(lhs, rhs) { }
 
-        public override double Eval(double lhs, double rhs)
+        protected override double Eval(double lhs, double rhs)
         {
             return lhs + rhs;
         }
 
-        public override void Diff(double lhs, double rhs, out double dLhs, out double dRhs)
+        protected override void Diff(double lhs, double rhs, out double dLhs, out double dRhs)
         {
             dLhs = 1;
             dRhs = 1;
@@ -77,12 +77,12 @@ namespace AutoDiff
     {
         public Sub(Node lhs, Node rhs) : base(lhs, rhs) { }
 
-        public override double Eval(double lhs, double rhs)
+        protected override double Eval(double lhs, double rhs)
         {
             return lhs - rhs;
         }
 
-        public override void Diff(double lhs, double rhs, out double dLhs, out double dRhs)
+        protected override void Diff(double lhs, double rhs, out double dLhs, out double dRhs)
         {
             dLhs = 1;
             dRhs = -1;
@@ -96,12 +96,12 @@ namespace AutoDiff
     {
         public Mul(Node lhs, Node rhs) : base(lhs, rhs) { }
 
-        public override double Eval(double lhs, double rhs)
+        protected override double Eval(double lhs, double rhs)
         {
             return lhs * rhs;
         }
 
-        public override void Diff(double lhs, double rhs, out double dLhs, out double dRhs)
+        protected override void Diff(double lhs, double rhs, out double dLhs, out double dRhs)
         {
             dLhs = rhs;
             dRhs = lhs;
@@ -115,12 +115,12 @@ namespace AutoDiff
     {
         public Div(Node lhs, Node rhs) : base(lhs, rhs) { }
 
-        public override double Eval(double lhs, double rhs)
+        protected override double Eval(double lhs, double rhs)
         {
             return lhs / rhs;
         }
 
-        public override void Diff(double lhs, double rhs, out double dLhs, out double dRhs)
+        protected override void Diff(double lhs, double rhs, out double dLhs, out double dRhs)
         {
             dLhs = 1 / rhs;
             dRhs = -lhs / (rhs * rhs);
@@ -134,12 +134,12 @@ namespace AutoDiff
     {
         public Pow(Node lhs, Node rhs) : base(lhs, rhs) { }
 
-        public override double Eval(double lhs, double rhs)
+        protected override double Eval(double lhs, double rhs)
         {
             return Math.Pow(lhs, rhs);
         }
 
-        public override void Diff(double lhs, double rhs, out double dLhs, out double dRhs)
+        protected override void Diff(double lhs, double rhs, out double dLhs, out double dRhs)
         {
             dLhs = rhs * Math.Pow(lhs, rhs - 1);
             dRhs = Math.Pow(lhs, rhs) * Math.Log(lhs);

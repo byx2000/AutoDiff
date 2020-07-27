@@ -18,12 +18,12 @@ namespace AutoDiff
             Value = value;
         }
 
-        public override double Eval(List<double> input)
+        protected override double Eval(List<double> input)
         {
             return Value;
         }
 
-        public override List<double> Diff(List<double> input)
+        protected override List<double> Diff(List<double> input)
         {
             return new List<double>();
         }
@@ -50,12 +50,12 @@ namespace AutoDiff
             Value = value;
         }
 
-        public override double Eval(List<double> input)
+        protected override double Eval(List<double> input)
         {
             return Value;
         }
 
-        public override List<double> Diff(List<double> input)
+        protected override List<double> Diff(List<double> input)
         {
             return new List<double>();
         }
