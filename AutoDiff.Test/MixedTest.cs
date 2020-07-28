@@ -854,5 +854,31 @@ namespace AutoDiff.Test
             y.Backward();
             Assert.IsTrue(x.Derivative == 3 * Math.Exp(5 / 4.0) / 32);
         }
+
+        [TestMethod]
+        public void Case55()
+        {
+            Var x = 17;
+            Expr y = F.Ln(x);
+
+            y.Forward();
+            Assert.IsTrue(y.Value == Math.Log(17));
+
+            y.Backward();
+            Assert.IsTrue(x.Derivative == 1 / 17.0);
+        }
+
+        [TestMethod]
+        public void Case56()
+        {
+            Var x = 5;
+            Expr y = F.Ln((x ^ 2) - 3 * x + 2);
+
+            y.Forward();
+            Assert.IsTrue(y.Value == Math.Log(12));
+
+            y.Backward();
+            Assert.AreEqual(x.Derivative, 7 / 12.0, epsilon);
+        }
     }
 }

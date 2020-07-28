@@ -31,5 +31,15 @@ namespace AutoDiff
         {
             return new Exp(expr);
         }
+
+        /// <summary>
+        /// 自然对数
+        /// </summary>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public static Expr Ln(Expr expr)
+        {
+            return new Ln(expr);
+        }
     }
 }

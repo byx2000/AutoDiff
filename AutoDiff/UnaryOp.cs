@@ -24,7 +24,7 @@ namespace AutoDiff
         protected abstract double Eval(double x);
 
         /// <summary>
-        /// 计算操作数的导数值
+        /// 计算导数值
         /// </summary>
         /// <param name="x">操作数值</param>
         /// <returns>导数值</returns>
@@ -74,6 +74,24 @@ namespace AutoDiff
         protected override double Diff(double x)
         {
             return Math.Exp(x);
+        }
+    }
+
+    /// <summary>
+    /// 自然对数
+    /// </summary>
+    public class Ln : UnaryOp
+    {
+        public Ln(Expr expr) : base(expr) { }
+
+        protected override double Eval(double x)
+        {
+            return Math.Log(x);
+        }
+
+        protected override double Diff(double x)
+        {
+            return 1 / x;
         }
     }
 }
