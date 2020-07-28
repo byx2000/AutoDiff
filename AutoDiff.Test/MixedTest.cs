@@ -797,5 +797,51 @@ namespace AutoDiff.Test
             Assert.AreEqual(x.Derivative, -6 / Math.Exp(13), epsilon);
             Assert.AreEqual(y.Derivative, 4 / Math.Exp(13), epsilon);
         }
+
+        [TestMethod]
+        public void Case51()
+        {
+            Var x = 13;
+#pragma warning disable CS1717 // 对同一变量进行了赋值
+            x = x;
+#pragma warning restore CS1717 // 对同一变量进行了赋值
+            Expr y = x;
+
+            y.Forward();
+            Assert.IsTrue(y.Value == 13);
+
+            y.Backward();
+            Assert.IsTrue(x.Derivative == 1);
+        }
+
+        [TestMethod]
+        public void Case52()
+        {
+            Var x = 3;
+            Expr y = 2 * x + 1;
+#pragma warning disable CS1717 // 对同一变量进行了赋值
+            y = y;
+#pragma warning restore CS1717 // 对同一变量进行了赋值
+
+            y.Forward();
+            Assert.IsTrue(y.Value == 7);
+
+            y.Backward();
+            Assert.IsTrue(x.Derivative == 2);
+        }
+
+        [TestMethod]
+        public void Case53()
+        {
+            Var x = 3;
+            Expr y = 2 * x + 1;
+            y = y * 6 - x;
+
+            y.Forward();
+            Assert.IsTrue(y.Value == 39);
+
+            y.Backward();
+            Assert.IsTrue(x.Derivative == 11);
+        }
     }
 }
