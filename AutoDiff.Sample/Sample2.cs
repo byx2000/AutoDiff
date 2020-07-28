@@ -4,37 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoDiff
+namespace AutoDiff.Sample
 {
-    public static class Sample
+    /// <summary>
+    /// 拟合直线y=2.5x-3.7
+    /// </summary>
+    public static class Sample2
     {
-        private static Random rand = new Random();
+        private static readonly Random rand = new Random();
 
-        /// <summary>
-        /// 用梯度下降法求函数y=x^2的最小值
-        /// </summary>
-        public static void RunSample1()
-        {
-            Console.WriteLine("Sample 1:");
-
-            Var x = (rand.NextDouble() * 2 - 1) * 1000;
-            Expr y = x * x;
-
-            double rate = 0.1;
-            int epoch = 100;
-            for (int i = 0; i < epoch; ++i)
-            {
-                y.Forward();
-                Console.WriteLine("x = " + x.Value + "\ty = " + y.Value);
-                y.Backward();
-                x.Value -= rate * x.Derivative;
-            }
-        }
-
-        /// <summary>
-        /// 拟合直线y=2.5x-3.7
-        /// </summary>
-        public static void RunSample2()
+        public static void Run()
         {
             Console.WriteLine("Sample 2:");
 
@@ -48,23 +27,45 @@ namespace AutoDiff
             }
 
             Expr loss = 0;
-            Var k = rand.NextDouble();
-            Var b = rand.NextDouble();
+            Var k = (rand.NextDouble() * 2 - 1) * rand.Next(100);
+            Var b = (rand.NextDouble() * 2 - 1) * rand.Next(100);
             for (int i = 0; i < x.Count; ++i)
             {
                 Expr delta = k * x[i] + b - y[i];
                 loss += delta * delta;
             }
 
-            double rate = 0.001;
+            double rate = 1;
             int epoch = 100;
+
+            loss.Forward();
+            double lastLoss = loss.Value;
+            double lastK = k.Value;
+            double lastB = b.Value;
+
             for (int i = 0; i < epoch; ++i)
             {
-                loss.Forward();
+
                 Console.WriteLine("y=(" + k.Value + ")x+(" + b.Value + ")\tloss=" + loss.Value);
                 loss.Backward();
+
                 k.Value -= rate * k.Derivative;
                 b.Value -= rate * b.Derivative;
+                loss.Forward();
+
+                while (loss.Value > lastLoss)
+                {
+                    k.Value = lastK;
+                    b.Value = lastB;
+                    rate /= 2;
+                    k.Value -= rate * k.Derivative;
+                    b.Value -= rate * b.Derivative;
+                    loss.Forward();
+                }
+
+                lastLoss = loss.Value;
+                lastK = k.Value;
+                lastB = b.Value;
             }
         }
     }

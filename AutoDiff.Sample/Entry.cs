@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AutoDiff
+namespace AutoDiff.Sample
 {
-    class Program
+    class Entry
     {
         static void Main()
         {
-            Sample.RunSample1();
-            Sample.RunSample2();
+            Sample1.Run();
+            Sample2.Run();
 
             Console.WriteLine("请按任意键继续...");
             Console.ReadKey();
