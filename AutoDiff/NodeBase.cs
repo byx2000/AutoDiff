@@ -170,7 +170,7 @@ namespace AutoDiff
         /// <param name="value"></param>
         public static implicit operator Expr(double value)
         {
-            return new Const(value);
+            return new Var(value);
         }
 
         /// <summary>

@@ -688,7 +688,7 @@ namespace AutoDiff.Test
         public void Case43()
         {
             Var r = 3;
-            Const pi = 3.14;
+            double pi = 3.14;
             Expr s = pi * r * r;
 
             s.Forward();
@@ -762,13 +762,11 @@ namespace AutoDiff.Test
         [TestMethod]
         public void Case48()
         {
-            Const pi = 3.14;
-            Assert.IsTrue(pi.Value == 3.14);
+            double pi = 3.14;
             Var x = pi;
             Assert.IsTrue(x.Value == 3.14);
             x.Value = 12;
             Assert.IsTrue(x.Value == 12);
-            Assert.IsTrue(pi.Value == 3.14);
         }
 
         [TestMethod]
