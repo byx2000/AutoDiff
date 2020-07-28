@@ -773,7 +773,7 @@ namespace AutoDiff.Test
         public void Case49()
         {
             Var x = 3;
-            Expr y = x.Exp();
+            Expr y = F.Exp(x);
 
             y.Forward();
             Assert.IsTrue(y.Value == Math.Exp(3));
@@ -786,7 +786,7 @@ namespace AutoDiff.Test
         public void Case50()
         {
             Var x = 3, y = -2;
-            Expr r = (-(x.Pow(2) + y.Pow(2))).Exp();
+            Expr r = F.Exp(-(x.Pow(2) + y.Pow(2)));
 
             r.Forward();
             Assert.IsTrue(r.Value == 1 / Math.Exp(13));
@@ -840,6 +840,19 @@ namespace AutoDiff.Test
 
             y.Backward();
             Assert.IsTrue(x.Derivative == 11);
+        }
+
+        [TestMethod]
+        public void Case54()
+        {
+            Var x = 5;
+            Expr y = F.Exp(2 * x / (x + 3)) - 7;
+
+            y.Forward();
+            Assert.IsTrue(y.Value == Math.Exp(5 / 4.0) - 7);
+
+            y.Backward();
+            Assert.IsTrue(x.Derivative == 3 * Math.Exp(5 / 4.0) / 32);
         }
     }
 }

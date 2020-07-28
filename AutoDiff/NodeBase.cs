@@ -247,14 +247,5 @@ namespace AutoDiff
         {
             return new Pow(this, rhs);
         }
-
-        /// <summary>
-        /// 自然对数的幂
-        /// </summary>
-        /// <returns></returns>
-        public Expr Exp()
-        {
-            return new Exp(this);
-        }
     }
 }
