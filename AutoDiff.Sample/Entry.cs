@@ -12,6 +12,7 @@ namespace AutoDiff.Sample
         {
             Sample1.Run();
             Sample2.Run();
+            Sample3.Run();
 
             Console.WriteLine("请按任意键继续...");
             Console.ReadKey();

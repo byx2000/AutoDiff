@@ -9,7 +9,7 @@ namespace AutoDiff.Sample
     /// <summary>
     /// 拟合直线y=2.5x-3.7
     /// </summary>
-    public static class Sample2
+    static class Sample2
     {
         private static readonly Random rand = new Random();
 

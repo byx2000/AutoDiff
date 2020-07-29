@@ -9,7 +9,7 @@ namespace AutoDiff.Sample
     /// <summary>
     /// 用梯度下降法求函数y=x^2的最小值
     /// </summary>
-    public static class Sample1
+    static class Sample1
     {
         private static readonly Random rand = new Random();
 
