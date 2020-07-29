@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AutoDiff;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoDiff.Sample
+namespace Sample
 {
     /// <summary>
     /// 拟合直线y=2.5x-3.7

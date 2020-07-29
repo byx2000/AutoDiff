@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7F10209B-92C7-4B27-AF09-B3DBC79A2E3F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>AutoDiff.Sample</RootNamespace>
-    <AssemblyName>AutoDiff.Sample</AssemblyName>
+    <RootNamespace>Sample</RootNamespace>
+    <AssemblyName>Sample</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

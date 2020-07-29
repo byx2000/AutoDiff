@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AutoDiff;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoDiff.Sample
+namespace Sample
 {
     /// <summary>
     /// 自动调整学习率

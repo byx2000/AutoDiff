@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AutoDiff;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoDiff.Sample
+namespace Sample
 {
     /// <summary>
     /// 用梯度下降法求函数y=x^2的最小值
