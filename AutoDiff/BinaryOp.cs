@@ -16,11 +16,7 @@ namespace AutoDiff
         /// </summary>
         /// <param name="lhs">左表达式</param>
         /// <param name="rhs">右表达式</param>
-        public BinaryOp(Expr lhs, Expr rhs)
-        {
-            AddChild(lhs);
-            AddChild(rhs);
-        }
+        public BinaryOp(Expr lhs, Expr rhs) : base(lhs, rhs) { }
 
         /// <summary>
         /// 返回左右操作数的运算结果（子类实现）

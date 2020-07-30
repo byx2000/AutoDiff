@@ -11,10 +11,7 @@ namespace AutoDiff
     /// </summary>
     public abstract class UnaryOp : Expr
     {
-        public UnaryOp(Expr expr)
-        {
-            AddChild(expr);
-        }
+        public UnaryOp(Expr expr) : base(expr) { }
 
         /// <summary>
         /// 计算值

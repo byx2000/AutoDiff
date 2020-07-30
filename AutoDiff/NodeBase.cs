@@ -55,6 +55,29 @@ namespace AutoDiff
         protected abstract List<double> Diff(List<double> input);
 
         /// <summary>
+        /// 默认构造函数
+        /// </summary>
+        public Expr() { }
+
+        /// <summary>
+        /// 创建具有特定子表达式的表达式
+        /// </summary>
+        /// <param name="exprs">子表达式列表</param>
+        public Expr(List<Expr> exprs)
+        {
+            foreach (Expr e in exprs)
+            {
+                AddChild(e);
+            }
+        }
+
+        /// <summary>
+        /// 创建具有特定子表达式的表达式
+        /// </summary>
+        /// <param name="exprs">子表达式列表</param>
+        public Expr(params Expr[] exprs) : this(exprs.ToList()) { }
+
+        /// <summary>
         /// 正向传播
         /// </summary>
         public void Forward()
