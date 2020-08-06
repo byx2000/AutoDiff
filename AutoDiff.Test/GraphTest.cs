@@ -15,9 +15,9 @@ namespace AutoDiff.Test
             Var x = 10;
             Var y = 20;
             Var z = 30;
-            Expr v = x + y;
-            Expr w = y + z;
-            Expr r = v * w;
+            Term v = x + y;
+            Term w = y + z;
+            Term r = v * w;
 
             Assert.IsTrue(x.Children.Count == 0);
             Assert.IsTrue(x.Parents.Count == 1);
@@ -54,7 +54,7 @@ namespace AutoDiff.Test
         public void Case2()
         {
             Var x = 5;
-            Expr y = x + x + x;
+            Term y = x + x + x;
 
             Assert.IsTrue(x.Children.Count == 0);
             Assert.IsTrue(x.Parents.Count == 3);
@@ -72,7 +72,7 @@ namespace AutoDiff.Test
         public void Case3()
         {
             Var x = 5;
-            Expr y = x * x * x;
+            Term y = x * x * x;
 
             Assert.IsTrue(x.Children.Count == 0);
             Assert.IsTrue(x.Parents.Count == 3);
@@ -91,8 +91,8 @@ namespace AutoDiff.Test
         {
             Var x = 1;
             Var y = 2;
-            Expr u = x + y;
-            Expr r = u * u;
+            Term u = x + y;
+            Term r = u * u;
 
             Assert.IsTrue(x.Children.Count == 0);
             Assert.IsTrue(x.Parents.Count == 1);
@@ -119,7 +119,7 @@ namespace AutoDiff.Test
         public void Case5()
         {
             Var x = 12;
-            Expr y = (x + 1) * (2 * x + 5);
+            Term y = (x + 1) * (2 * x + 5);
 
             Assert.IsTrue(x.Children.Count == 0);
             Assert.IsTrue(x.Parents.Count == 2);
@@ -135,9 +135,9 @@ namespace AutoDiff.Test
         {
             Var x = 1;
             Var y = 2;
-            Expr u = x + y;
-            Expr v = x * y;
-            Expr r = u * v + v * u;
+            Term u = x + y;
+            Term v = x * y;
+            Term r = u * v + v * u;
 
             Assert.IsTrue(x.Children.Count == 0);
             Assert.IsTrue(x.Parents.Count == 2);
@@ -174,9 +174,9 @@ namespace AutoDiff.Test
         public void Case7()
         {
             Var x = 1;
-            Expr y = x + x;
-            Expr z = y + y;
-            Expr r = y + z;
+            Term y = x + x;
+            Term z = y + y;
+            Term r = y + z;
 
             Assert.IsTrue(y.Children.Count == 2);
             Assert.IsTrue(y.Parents.Count == 3);
@@ -192,8 +192,8 @@ namespace AutoDiff.Test
         public void Case8()
         {
             Var x = 12;
-            Expr y = x - 1;
-            Expr z = 7 - x;
+            Term y = x - 1;
+            Term z = 7 - x;
 
             Assert.IsTrue(y.Children.Count == 2);
             Assert.IsTrue(y.Children[0] == x);

@@ -17,7 +17,7 @@ namespace AutoDiff.Test
             Var x = 5;
             Var y = 4;
             Var z = 7;
-            Expr r = (x * y + z) + (x + y) * z;
+            Term r = (x * y + z) + (x + y) * z;
 
             r.Forward();
             Assert.IsTrue(r.Value == (5 * 4 + 7) + (5 + 4) * 7);
@@ -33,9 +33,9 @@ namespace AutoDiff.Test
         {
             Var x = 23;
             Var y = 77;
-            Expr u = x * y;
-            Expr v = u * u;
-            Expr r = v + v;
+            Term u = x * y;
+            Term v = u * u;
+            Term r = v + v;
 
             r.Forward();
             Assert.IsTrue(r.Value == 6272882);
@@ -52,7 +52,7 @@ namespace AutoDiff.Test
             Var y = -3;
             Var z = 11;
             Var w = 7;
-            Expr r = (x * y + 3 * z + 6 * w) * (12 + y * z + 6 * w) + 10 * x * (y + z) * (w + 3);
+            Term r = (x * y + 3 * z + 6 * w) * (12 + y * z + 6 * w) + 10 * x * (y + z) * (w + 3);
 
             r.Forward();
             Assert.IsTrue(r.Value == 3049);
@@ -69,9 +69,9 @@ namespace AutoDiff.Test
         {
             Var x = 12;
             Var y = 13;
-            Expr u = x + y;
-            Expr v = x * y;
-            Expr r = 2 * u * v * v + 3 * u * u * v + 4;
+            Term u = x + y;
+            Term v = x * y;
+            Term r = 2 * u * v * v + 3 * u * u * v + 4;
 
             r.Forward();
             Assert.IsTrue(u.Value == 25);
@@ -90,11 +90,11 @@ namespace AutoDiff.Test
         {
             Var x = -3;
             Var y = 2;
-            Expr u = x + y;
-            Expr v = x * y;
-            Expr a = 3 * u + 2 * v;
-            Expr b = 7 * u * v;
-            Expr r = x + y + u + v + a + b + x * y * u * v * a * b;
+            Term u = x + y;
+            Term v = x * y;
+            Term a = 3 * u + 2 * v;
+            Term b = 7 * u * v;
+            Term r = x + y + u + v + a + b + x * y * u * v * a * b;
 
             r.Forward();
             Assert.IsTrue(r.Value == 22699);
@@ -108,7 +108,7 @@ namespace AutoDiff.Test
         public void Case6()
         {
             Var x = 3;
-            Expr y = (-3) * x;
+            Term y = (-3) * x;
 
             y.Forward();
             Assert.IsTrue(y.Value == -9);
@@ -121,7 +121,7 @@ namespace AutoDiff.Test
         public void Case7()
         {
             Var x = 3;
-            Expr y = 155;
+            Term y = 155;
 
             y.Forward();
             Assert.IsTrue(y.Value == 155);
@@ -137,10 +137,10 @@ namespace AutoDiff.Test
             Var x = 2;
             Var y = 7;
             Var z = -11;
-            Expr u = x + y + z;
-            Expr v = x * y + y * z + x * z;
-            Expr w = x * y * z + (-7);
-            Expr r = 2 * x + 7 * (u * v + w) + (-16) * (v + w) + w * u + (-1) * u * v * w + 3 * y + 4 * z;
+            Term u = x + y + z;
+            Term v = x * y + y * z + x * z;
+            Term w = x * y * z + (-7);
+            Term r = 2 * x + 7 * (u * v + w) + (-16) * (v + w) + w * u + (-1) * u * v * w + 3 * y + 4 * z;
 
             r.Forward();
             Assert.IsTrue(r.Value == 31672);
@@ -156,7 +156,7 @@ namespace AutoDiff.Test
         {
             Var x = 17;
             Var y = -5;
-            Expr r = x * x + y * y - 2 * x * y;
+            Term r = x * x + y * y - 2 * x * y;
 
             r.Forward();
             Assert.IsTrue(r.Value == 484);
@@ -171,7 +171,7 @@ namespace AutoDiff.Test
         {
             Var x = 5;
             Var y = 2;
-            Expr r = x - (3 * x - 2 * y) * (x + y - 55) + 7 - 66;
+            Term r = x - (3 * x - 2 * y) * (x + y - 55) + 7 - 66;
 
             r.Forward();
             Assert.IsTrue(r.Value == 474);
@@ -187,7 +187,7 @@ namespace AutoDiff.Test
             Var x = -3;
             Var y = 7;
             Var z = 11;
-            Expr r = x - y - z;
+            Term r = x - y - z;
 
             r.Forward();
             Assert.IsTrue(r.Value == -21);
@@ -204,7 +204,7 @@ namespace AutoDiff.Test
             Var x = -3;
             Var y = 7;
             Var z = 11;
-            Expr r = x - y + z;
+            Term r = x - y + z;
 
             r.Forward();
             Assert.IsTrue(r.Value == 1);
@@ -219,7 +219,7 @@ namespace AutoDiff.Test
         public void Case13()
         {
             Var x, y;
-            Expr u, v, a, b, r;
+            Term u, v, a, b, r;
             x = -3;
             y = 2;
             u = x - y;
@@ -240,7 +240,7 @@ namespace AutoDiff.Test
         public void Case14()
         {
             Var x, y;
-            Expr u, r;
+            Term u, r;
             x = 7;
             y = 13;
             u = x - y;
@@ -258,8 +258,8 @@ namespace AutoDiff.Test
         public void Case15()
         {
             Var x = 12;
-            Expr y = x - 1;
-            Expr z = 7 - x;
+            Term y = x - 1;
+            Term z = 7 - x;
 
             y.Forward();
             Assert.IsTrue(y.Value == 11);
@@ -278,8 +278,8 @@ namespace AutoDiff.Test
         public void Case16()
         {
             Var x = 12;
-            Expr y = 5;
-            Expr r = y;
+            Term y = 5;
+            Term r = y;
 
             r.Forward();
             Assert.IsTrue(r.Value == 5);
@@ -293,7 +293,7 @@ namespace AutoDiff.Test
         public void Case17()
         {
             Var x = 10;
-            Expr y = 7 + x - x;
+            Term y = 7 + x - x;
 
             y.Forward();
             Assert.IsTrue(y.Value == 7);
@@ -306,9 +306,9 @@ namespace AutoDiff.Test
         public void Case18()
         {
             Var x = 1;
-            Expr y = x + x;
-            Expr z = y + y;
-            Expr r = y + z;
+            Term y = x + x;
+            Term z = y + y;
+            Term r = y + z;
 
             r.Forward();
             Assert.IsTrue(r.Value == 6);
@@ -321,7 +321,7 @@ namespace AutoDiff.Test
         public void Case19()
         {
             Var x = 5;
-            Expr y = x + x + x;
+            Term y = x + x + x;
 
             y.Forward();
             Assert.IsTrue(y.Value == 15);
@@ -334,7 +334,7 @@ namespace AutoDiff.Test
         public void Case20()
         {
             Var x = 5;
-            Expr y = 2 * x + 3 * x + 5 * x;
+            Term y = 2 * x + 3 * x + 5 * x;
 
             y.Forward();
             Assert.IsTrue(y.Value == 50);
@@ -347,7 +347,7 @@ namespace AutoDiff.Test
         public void Case21()
         {
             Var x1, y1, x2, y2, k, b;
-            Expr d1, d2, loss;
+            Term d1, d2, loss;
             x1 = 5;
             y1 = 7;
             x2 = -2;
@@ -370,7 +370,7 @@ namespace AutoDiff.Test
         public void Case22()
         {
             Var x1, y1, x2, y2, x3, y3, a, b, c;
-            Expr d1, d2, d3, loss;
+            Term d1, d2, d3, loss;
             x1 = 2;
             y1 = 7;
             x2 = 1;
@@ -398,9 +398,9 @@ namespace AutoDiff.Test
         public void Case23()
         {
             Var x = 2;
-            Expr y = x * x;
-            Expr z = y + y;
-            Expr r = x - y - z;
+            Term y = x * x;
+            Term z = y + y;
+            Term r = x - y - z;
 
             r.Forward();
             Assert.IsTrue(r.Value == -10);
@@ -413,10 +413,10 @@ namespace AutoDiff.Test
         public void Case24()
         {
             Var x = 1, y = 2, z = 3;
-            Expr u = y + z;
-            Expr v = u + x;
-            Expr w = u + v;
-            Expr r = v + w;
+            Term u = y + z;
+            Term v = u + x;
+            Term w = u + v;
+            Term r = v + w;
 
             r.Forward();
             Assert.IsTrue(r.Value == 17);
@@ -431,7 +431,7 @@ namespace AutoDiff.Test
         public void Case25()
         {
             Var x = 1, y = 2, z = 3;
-            Expr r = x - (y - z);
+            Term r = x - (y - z);
 
             r.Forward();
             Assert.IsTrue(r.Value == 2);
@@ -446,7 +446,7 @@ namespace AutoDiff.Test
         public void Case26()
         {
             Var x = 3;
-            Expr y = 1 / x;
+            Term y = 1 / x;
 
             y.Forward();
             Assert.IsTrue(y.Value == 1.0 / 3);
@@ -459,7 +459,7 @@ namespace AutoDiff.Test
         public void Case27()
         {
             Var x = 3;
-            Expr y = x / 2;
+            Term y = x / 2;
 
             y.Forward();
             Assert.IsTrue(y.Value == 3 / 2.0);
@@ -472,7 +472,7 @@ namespace AutoDiff.Test
         public void Case28()
         {
             Var x = 37, y = 12;
-            Expr r = x / y;
+            Term r = x / y;
 
             r.Forward();
             Assert.IsTrue(r.Value == 37.0 / 12);
@@ -486,7 +486,7 @@ namespace AutoDiff.Test
         public void Case29()
         {
             Var x = 3, y = -4;
-            Expr r = (x + y) / (x - y);
+            Term r = (x + y) / (x - y);
 
             r.Forward();
             Assert.IsTrue(r.Value == -1 / 7.0);
@@ -500,7 +500,7 @@ namespace AutoDiff.Test
         public void Case30()
         {
             Var x = 3, y = -4;
-            Expr r = 1 / (1 + x * y) - (x * x + y * y) / (2 * x * y);
+            Term r = 1 / (1 + x * y) - (x * x + y * y) / (2 * x * y);
 
             r.Forward();
             Assert.IsTrue(r.Value == 251 / 264.0);
@@ -514,7 +514,7 @@ namespace AutoDiff.Test
         public void Case31()
         {
             Var x = 3, y = -4, z = 2;
-            Expr r = x / y / z;
+            Term r = x / y / z;
 
             r.Forward();
             Assert.IsTrue(r.Value == -3 / 8.0);
@@ -529,7 +529,7 @@ namespace AutoDiff.Test
         public void Case32()
         {
             Var x = 3, y = -4, z = 2;
-            Expr r = x / (y / z);
+            Term r = x / (y / z);
 
             r.Forward();
             Assert.IsTrue(r.Value == -3 / 2.0);
@@ -544,7 +544,7 @@ namespace AutoDiff.Test
         public void Case33()
         {
             Var x = 3, y = 2;
-            Expr r = x / y * y;
+            Term r = x / y * y;
 
             r.Forward();
             Assert.IsTrue(r.Value == 3);
@@ -558,7 +558,7 @@ namespace AutoDiff.Test
         public void Case34()
         {
             Var x = 3, y = 2;
-            Expr r = x * y / y;
+            Term r = x * y / y;
 
             r.Forward();
             Assert.IsTrue(r.Value == 3);
@@ -572,7 +572,7 @@ namespace AutoDiff.Test
         public void Case35()
         {
             Var x, y;
-            Expr u, v, r;
+            Term u, v, r;
             x = 7;
             y = 3;
             u = x / y;
@@ -591,7 +591,7 @@ namespace AutoDiff.Test
         public void Case36()
         {
             Var x = 3;
-            Expr y = x ^ 4;
+            Term y = x ^ 4;
 
             y.Forward();
             Assert.IsTrue(y.Value == 81);
@@ -604,7 +604,7 @@ namespace AutoDiff.Test
         public void Case37()
         {
             Var x = 3;
-            Expr y = 4 ^ x;
+            Term y = 4 ^ x;
 
             y.Forward();
             Assert.IsTrue(y.Value == 64);
@@ -617,7 +617,7 @@ namespace AutoDiff.Test
         public void Case38()
         {
             Var x = 5, y = 3;
-            Expr r = x ^ y;
+            Term r = x ^ y;
 
             r.Forward();
             Assert.IsTrue(r.Value == 125);
@@ -631,7 +631,7 @@ namespace AutoDiff.Test
         public void Case39()
         {
             Var x = 2, y = 3;
-            Expr r = (x + y) ^ (2 * x - 3 * y);
+            Term r = (x + y) ^ (2 * x - 3 * y);
 
             r.Forward();
             Assert.IsTrue(r.Value == 1 / 3125.0);
@@ -645,7 +645,7 @@ namespace AutoDiff.Test
         public void Case40()
         {
             Var x = 3;
-            Expr y = (x ^ 3) - (4 ^ x) + (x + 7) * (x + 1) / (2 * x - 3);
+            Term y = (x ^ 3) - (4 ^ x) + (x + 7) * (x + 1) / (2 * x - 3);
 
             y.Forward();
             Assert.AreEqual(y.Value, -71 / 3.0, epsilon);
@@ -658,7 +658,7 @@ namespace AutoDiff.Test
         public void Case41()
         {
             Var x = 4, y = 3, z = 2;
-            Expr r = x ^ y ^ z;
+            Term r = x ^ y ^ z;
 
             r.Forward();
             Assert.IsTrue(r.Value == 4096);
@@ -673,7 +673,7 @@ namespace AutoDiff.Test
         public void Case42()
         {
             Var x = 4, y = 3, z = 2;
-            Expr r = x ^ (y ^ z);
+            Term r = x ^ (y ^ z);
 
             r.Forward();
             Assert.IsTrue(r.Value == 262144);
@@ -689,7 +689,7 @@ namespace AutoDiff.Test
         {
             Var r = 3;
             double pi = 3.14;
-            Expr s = pi * r * r;
+            Term s = pi * r * r;
 
             s.Forward();
             Assert.IsTrue(s.Value == 3.14 * 3 * 3);
@@ -709,7 +709,7 @@ namespace AutoDiff.Test
         public void Case44()
         {
             Var x = 13;
-            Expr y = -x + 3;
+            Term y = -x + 3;
 
             y.Forward();
             Assert.IsTrue(y.Value == -10);
@@ -722,7 +722,7 @@ namespace AutoDiff.Test
         public void Case45()
         {
             Var x = 13;
-            Expr y = 2 * x * (-x);
+            Term y = 2 * x * (-x);
 
             y.Forward();
             Assert.IsTrue(y.Value == -338);
@@ -735,9 +735,9 @@ namespace AutoDiff.Test
         public void Case46()
         {
             Var x = 5;
-            Expr u = x;
-            Expr v = -x;
-            Expr r = u + v;
+            Term u = x;
+            Term v = -x;
+            Term r = u + v;
 
             r.Forward();
             Assert.IsTrue(r.Value == 0);
@@ -750,7 +750,7 @@ namespace AutoDiff.Test
         public void Case47()
         {
             Var x = -2;
-            Expr y = -((x ^ 2) - 6 * x + 5);
+            Term y = -((x ^ 2) - 6 * x + 5);
 
             y.Forward();
             Assert.IsTrue(y.Value == -21);
@@ -773,7 +773,7 @@ namespace AutoDiff.Test
         public void Case49()
         {
             Var x = 3;
-            Expr y = F.Exp(x);
+            Term y = F.Exp(x);
 
             y.Forward();
             Assert.IsTrue(y.Value == Math.Exp(3));
@@ -786,7 +786,7 @@ namespace AutoDiff.Test
         public void Case50()
         {
             Var x = 3, y = -2;
-            Expr r = F.Exp(-(x.Pow(2) + y.Pow(2)));
+            Term r = F.Exp(-(x.Pow(2) + y.Pow(2)));
 
             r.Forward();
             Assert.IsTrue(r.Value == 1 / Math.Exp(13));
@@ -803,7 +803,7 @@ namespace AutoDiff.Test
 #pragma warning disable CS1717 // 对同一变量进行了赋值
             x = x;
 #pragma warning restore CS1717 // 对同一变量进行了赋值
-            Expr y = x;
+            Term y = x;
 
             y.Forward();
             Assert.IsTrue(y.Value == 13);
@@ -816,7 +816,7 @@ namespace AutoDiff.Test
         public void Case52()
         {
             Var x = 3;
-            Expr y = 2 * x + 1;
+            Term y = 2 * x + 1;
 #pragma warning disable CS1717 // 对同一变量进行了赋值
             y = y;
 #pragma warning restore CS1717 // 对同一变量进行了赋值
@@ -832,7 +832,7 @@ namespace AutoDiff.Test
         public void Case53()
         {
             Var x = 3;
-            Expr y = 2 * x + 1;
+            Term y = 2 * x + 1;
             y = y * 6 - x;
 
             y.Forward();
@@ -846,7 +846,7 @@ namespace AutoDiff.Test
         public void Case54()
         {
             Var x = 5;
-            Expr y = F.Exp(2 * x / (x + 3)) - 7;
+            Term y = F.Exp(2 * x / (x + 3)) - 7;
 
             y.Forward();
             Assert.IsTrue(y.Value == Math.Exp(5 / 4.0) - 7);
@@ -859,7 +859,7 @@ namespace AutoDiff.Test
         public void Case55()
         {
             Var x = 17;
-            Expr y = F.Ln(x);
+            Term y = F.Ln(x);
 
             y.Forward();
             Assert.IsTrue(y.Value == Math.Log(17));
@@ -872,7 +872,7 @@ namespace AutoDiff.Test
         public void Case56()
         {
             Var x = 5;
-            Expr y = F.Ln((x ^ 2) - 3 * x + 2);
+            Term y = F.Ln((x ^ 2) - 3 * x + 2);
 
             y.Forward();
             Assert.IsTrue(y.Value == Math.Log(12));

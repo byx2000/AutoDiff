@@ -9,7 +9,7 @@ namespace AutoDiff
     /// <summary>
     /// 变量节点
     /// </summary>
-    public class Var : Expr
+    public class Var : Term
     {
         public new double Value { get; set; }
 

@@ -9,14 +9,14 @@ namespace AutoDiff
     /// <summary>
     /// 二元运算节点抽象基类
     /// </summary>
-    public abstract class BinaryOp : Expr
+    public abstract class BinaryOp : Term
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="lhs">左表达式</param>
         /// <param name="rhs">右表达式</param>
-        public BinaryOp(Expr lhs, Expr rhs) : base(lhs, rhs) { }
+        public BinaryOp(Term lhs, Term rhs) : base(lhs, rhs) { }
 
         /// <summary>
         /// 返回左右操作数的运算结果（子类实现）
@@ -52,7 +52,7 @@ namespace AutoDiff
     /// </summary>
     public class Add : BinaryOp
     {
-        public Add(Expr lhs, Expr rhs) : base(lhs, rhs) { }
+        public Add(Term lhs, Term rhs) : base(lhs, rhs) { }
 
         protected override double Eval(double lhs, double rhs)
         {
@@ -71,7 +71,7 @@ namespace AutoDiff
     /// </summary>
     public class Sub : BinaryOp
     {
-        public Sub(Expr lhs, Expr rhs) : base(lhs, rhs) { }
+        public Sub(Term lhs, Term rhs) : base(lhs, rhs) { }
 
         protected override double Eval(double lhs, double rhs)
         {
@@ -90,7 +90,7 @@ namespace AutoDiff
     /// </summary>
     public class Mul : BinaryOp
     {
-        public Mul(Expr lhs, Expr rhs) : base(lhs, rhs) { }
+        public Mul(Term lhs, Term rhs) : base(lhs, rhs) { }
 
         protected override double Eval(double lhs, double rhs)
         {
@@ -109,7 +109,7 @@ namespace AutoDiff
     /// </summary>
     public class Div : BinaryOp
     {
-        public Div(Expr lhs, Expr rhs) : base(lhs, rhs) { }
+        public Div(Term lhs, Term rhs) : base(lhs, rhs) { }
 
         protected override double Eval(double lhs, double rhs)
         {
@@ -128,7 +128,7 @@ namespace AutoDiff
     /// </summary>
     public class Pow : BinaryOp
     {
-        public Pow(Expr lhs, Expr rhs) : base(lhs, rhs) { }
+        public Pow(Term lhs, Term rhs) : base(lhs, rhs) { }
 
         protected override double Eval(double lhs, double rhs)
         {

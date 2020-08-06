@@ -19,7 +19,7 @@ namespace Sample
             Console.WriteLine("Sample 1:");
 
             Var x = (rand.NextDouble() * 2 - 1) * 1000;
-            Expr y = x * x;
+            Term y = x * x;
 
             double rate = 0.1;
             int epoch = 100;

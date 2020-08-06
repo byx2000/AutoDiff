@@ -17,7 +17,7 @@ namespace AutoDiff
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public static Expr Pow(Expr lhs, Expr rhs)
+        public static Term Pow(Term lhs, Term rhs)
         {
             return new Pow(lhs, rhs);
         }
@@ -27,7 +27,7 @@ namespace AutoDiff
         /// </summary>
         /// <param name="expr"></param>
         /// <returns></returns>
-        public static Expr Exp(Expr expr)
+        public static Term Exp(Term expr)
         {
             return new Exp(expr);
         }
@@ -37,7 +37,7 @@ namespace AutoDiff
         /// </summary>
         /// <param name="expr"></param>
         /// <returns></returns>
-        public static Expr Ln(Expr expr)
+        public static Term Ln(Term expr)
         {
             return new Ln(expr);
         }

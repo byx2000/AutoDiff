@@ -27,12 +27,12 @@ namespace Sample
                 y.Add(2.5 * i - 3.7);
             }
 
-            Expr loss = 0;
+            Term loss = 0;
             Var k = (rand.NextDouble() * 2 - 1) * rand.Next(100);
             Var b = (rand.NextDouble() * 2 - 1) * rand.Next(100);
             for (int i = 0; i < x.Count; ++i)
             {
-                Expr delta = k * x[i] + b - y[i];
+                Term delta = k * x[i] + b - y[i];
                 loss += delta * delta;
             }
 

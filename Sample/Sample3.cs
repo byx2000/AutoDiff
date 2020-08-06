@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace Sample
 {
     /// <summary>
-    /// 自动调整学习率
+    /// 拟合抛物线 自动调整学习率
     /// </summary>
     static class Sample3
     {
         private static readonly Random rand = new Random();
 
         // 求最小值
-        private static void Minimum(List<Var> x, Expr y)
+        private static void Minimum(List<Var> x, Term y)
         {
             List<double> lastX = new List<double>();
             foreach (Var v in x)
@@ -118,11 +118,11 @@ namespace Sample
             }
 
             Var a = new Var(), b = new Var(), c = new Var();
-            Expr loss = 0;
+            Term loss = 0;
 
             for (int i = 0; i < x.Count; ++i)
             {
-                Expr delta = a * x[i] * x[i] + b * x[i] + c - y[i];
+                Term delta = a * x[i] * x[i] + b * x[i] + c - y[i];
                 loss += delta * delta;
             }
 

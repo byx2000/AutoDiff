@@ -9,9 +9,9 @@ namespace AutoDiff
     /// <summary>
     /// 一元运算节点抽象基类
     /// </summary>
-    public abstract class UnaryOp : Expr
+    public abstract class UnaryOp : Term
     {
-        public UnaryOp(Expr expr) : base(expr) { }
+        public UnaryOp(Term expr) : base(expr) { }
 
         /// <summary>
         /// 计算值
@@ -43,7 +43,7 @@ namespace AutoDiff
     /// </summary>
     public class Neg : UnaryOp
     {
-        public Neg(Expr expr) : base(expr) { }
+        public Neg(Term expr) : base(expr) { }
 
         protected override double Eval(double x)
         {
@@ -61,7 +61,7 @@ namespace AutoDiff
     /// </summary>
     public class Exp : UnaryOp
     {
-        public Exp(Expr expr) : base(expr) { }
+        public Exp(Term expr) : base(expr) { }
 
         protected override double Eval(double x)
         {
@@ -79,7 +79,7 @@ namespace AutoDiff
     /// </summary>
     public class Ln : UnaryOp
     {
-        public Ln(Expr expr) : base(expr) { }
+        public Ln(Term expr) : base(expr) { }
 
         protected override double Eval(double x)
         {
